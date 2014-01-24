@@ -2,11 +2,11 @@
  *
  *  eiv.cpp
  *  by oZ/acy
- *  (c) 2002-2012 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2014 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
- *  last update: 13 May MMXII
+ *  last update: 25 Jan MMXIV
  *************************************************************************/
 #include "eiv.h"
 #include <polymnia/dibio.h>
@@ -17,10 +17,10 @@
 
 
 /*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-*  class EIViewer の staticデータメンバ定義
-*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+ *  class EIViewer の staticデータメンバ定義
+ */
 
-boost::scoped_ptr<EIViewer> EIViewer::eiv_S;
+std::unique_ptr<EIViewer> EIViewer::eiv_S;
 
 
 
@@ -28,7 +28,7 @@ boost::scoped_ptr<EIViewer> EIViewer::eiv_S;
 /*=====================================================
  *  EIViewer::get()
  *  インスタンスの取得
- *===================================================*/
+ */
 EIViewer* EIViewer::get()
 {
   if (!eiv_S)
@@ -41,9 +41,9 @@ EIViewer* EIViewer::get()
 
 
 /*======================================
-*  EIViewer::EIViewer()
-*  update: 13 May 2012
-*=====================================*/
+ *  EIViewer::EIViewer()
+ *  update: 13 May 2012
+ */
 EIViewer::EIViewer() : vx_(0), vy_(0), scrX_(false), scrY_(false)
 {
   using namespace urania;
@@ -74,9 +74,9 @@ EIViewer::EIViewer() : vx_(0), vy_(0), scrX_(false), scrY_(false)
 
 
 /*================================================================
-*  EIViewer::sizeHandleAndMore()
-*  Window のリサイズ時などにスクロールバーの再設定をする
-*===============================================================*/
+ *  EIViewer::sizeHandleAndMore()
+ *  Window のリサイズ時などにスクロールバーの再設定をする
+ */
 void EIViewer::sizeHandleAndMore(urania::Window* pw_TG)
 {
   if (qrgb_ || pvd_)
@@ -126,16 +126,16 @@ void EIViewer::sizeHandleAndMore(urania::Window* pw_TG)
 
 
 /*====================================================
-*  EIViewer::loadImage()
-*  画像ファイルを拡張子に応じてロードする
-*===================================================*/
+ *  EIViewer::loadImage()
+ *  画像ファイルを拡張子に応じてロードする
+ */
 void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
 {
   using namespace polymnia;
   using namespace urania;
 
-  boost::scoped_ptr<PictureIndexed> ppc;
-  boost::scoped_ptr<Picture> pict;
+  std::unique_ptr<PictureIndexed> ppc;
+  std::unique_ptr<Picture> pict;
   std::wstring ext = getFileExt(file);
 
   std::string path = System::cnvWStr2MBStr(file);
@@ -174,7 +174,7 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
   if (ppc)
   {
     pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
-    qrgb_.reset(NULL);
+    qrgb_.reset();
 
     itype = L" (256 Color)";
     w = pvd_->width();
@@ -183,7 +183,7 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
   else if (pict)
   {
     qrgb_.reset(PaintMemDevice::create(pict.get()));
-    pvd_.reset(NULL);
+    pvd_.reset();
 
     itype = L" (True Color)";
     w = qrgb_->width();
@@ -198,9 +198,9 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
 
 
   // 再描畫やウィンドウのタイトル變更など
-  boost::scoped_ptr<PaintDevice> ppd(pw->getPaintDevice());
+  std::unique_ptr<PaintDevice> ppd(pw->getPaintDevice());
   ppd->clear(RgbColor(255, 255, 255));
-  ppd.reset(NULL);
+  ppd.reset();
 
   vx_ = vy_ = 0;
   pw->resizeScreen(w, h);
@@ -217,27 +217,25 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
 
 
 /*====================================================
-*  EIViewer::setXPos()
-*  横スクロールバーのメッセージハンドラ
-*  画像転送の左上座標の水平成分を設定
-*===================================================*/
-void EIViewer::setXPos(urania::Window* pw, int x)
+ *  EIViewer::setX()
+ *  横スクロールバーのメッセージハンドラ
+ *  画像転送の左上座標の水平成分を設定
+ */
+void EIViewer::setX(urania::Window* pw, int x)
 {
-  EIViewer* eiv = EIViewer::get();
-  eiv->vx_ = x;
+  vx_ = x;
   pw->invalidate();
   pw->update();
 }
 
 /*=============================================================
-*  EIViewer::setYPos()
-*  縦スクロールバーのメッセージハンドラ
-*  画像転送の左上座標の垂直成分を設定
-*============================================================*/
-void EIViewer::setYPos(urania::Window* pw, int y)
+ *  EIViewer::setY()
+ *  縦スクロールバーのメッセージハンドラ
+ *  画像転送の左上座標の垂直成分を設定
+ */
+void EIViewer::setY(urania::Window* pw, int y)
 {
-  EIViewer* eiv = EIViewer::get();
-  eiv->vy_ = y;
+  vy_ = y;
   pw->invalidate();
   pw->update();
 }
@@ -272,137 +270,6 @@ void EIViewer::onMenuAbout(urania::Window* win)
 {
   std::wstring str = EIVNAME L"  " VERSTR L"\n" COPYRIGHTSTR;
   urania::System::msgBox(L"About", str);
-}
-
-
-
-
-/*================================================
- *  EIVWMHManager::onKeyDown()
- *  キー押下時のコールバック
- */
-bool
-EIVWMHManager::onKeyDown(urania::Window* win, int code, int rep, bool prev)
-{
-  switch (code)
-  {
-  case VK_ESCAPE:
-    win->close();
-    break;
-  case VK_F6:
-    win->minimize();
-    break;
-  }
-  return true;
-}
-
-
-/*================================================
- *  EIVWMHManager::onSize()
- *  サイズ變更時のコールバック
- */
-bool EIVWMHManager::onSize(urania::Window* win, int typ, int w, int h)
-{
-  EIViewer::get()->sizeHandleAndMore(win);
-  return true;
-}
-
-
-/*==============================================
- *  EIVWMHManager::onDestroy()
- *  アプリの終了處理
- */
-bool EIVWMHManager::onDestroy()
-{
-  urania::System::quit(0);
-  return true;
-}
-
-
-/*==============================================
- *  EIVWMHManager::onPaint()
- *  描畫處理
- */
-void
-EIVWMHManager::onPaint(urania::BasicWindow* win, urania::PaintDevice* pdev)
-{
-  (void)win;
-  int bw, bh;
-  EIViewer* eiv = EIViewer::get();
-
-  if (eiv->getPaintDevice())
-  {
-    bw = eiv->getPaintDevice()->width();
-    bh = eiv->getPaintDevice()->height();
-    pdev->blt(
-      0, 0, eiv->getPaintDevice(),
-      eiv->getX(), eiv->getY(), bw - eiv->getX(), bh - eiv->getY());
-  }
-  else if (eiv->getPaintDeviceIndexed())
-  {
-    bw = eiv->getPaintDeviceIndexed()->width();
-    bh = eiv->getPaintDeviceIndexed()->height();
-    pdev->blt(
-      0, 0, eiv->getPaintDeviceIndexed(),
-      eiv->getX(), eiv->getY(), bw - eiv->getX(), bh - eiv->getY());
-  }
-  else
-  {
-    pdev->clear(polymnia::RgbColor(255, 255, 255));
-  }
-}
-
-
-/*==================================================
- *  EIVWMHManager::onDropFiles()
- *  ファイルドロップ時のメッセージハンドラ
- *================================================*/
-void
-EIVWMHManager::onDropFiles(
-  urania::Window* pw, std::vector<std::wstring>& fary, int x, int y)
-{
-  (void)x;
-  (void)y;
-
-  if (fary.size()==0)
-    return;
-
-  std::wstring ext;
-  std::vector<std::wstring>::iterator itr;
-
-  for (itr = fary.begin(); itr != fary.end(); itr++)
-  {
-    ext = getFileExt(*itr);
-    if (ext==L"bmp")
-      break;
-    if (ext==L"png")
-      break;
-    if (ext==L"jpg")
-      break;
-    if (ext==L"jpeg")
-      break;
-//    if (ext==L"ppm")
-//      break;
-  }
-
-  if (itr != fary.end())
-  {
-    EIViewer* eiv = EIViewer::get();
-    eiv->loadImage(pw, *itr);
-  }
-}
-
-
-/*==================================================
- *  EIVWMHManager::onDropFiles()
- *  スクロール時のメッセージハンドラ
- *================================================*/
-void EIVWMHManager::onScroll(urania::Window* pw, int id, int pos)
-{
-  if (id == urania::ID_SBH)
-    EIViewer::setXPos(pw, pos);
-  else
-    EIViewer::setYPos(pw, pos);
 }
 
 

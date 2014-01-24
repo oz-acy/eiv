@@ -2,11 +2,11 @@
  *
  *  eiv2.cpp
  *  by oZ/acy
- *  (c) 2002-2010 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2014 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer PLUS
  *
- *  last update: 3 Sep MMX
+ *  last update: 25 Jan MMXIV
  ************************************************************************/
 #include "eiv.h"
 #include <polymnia/pictcvt.h>
@@ -38,12 +38,12 @@ void EIViewer::to256(urania::Window* qw)
   if (!qrgb_)
     return;
 
-  boost::scoped_ptr<Dialog> wtdlg(
+  std::unique_ptr<Dialog> wtdlg(
     Dialog::doOwnedModeless(EIV_WAITDLG, qw, NULL, NULL, dProc));
 
 
-  boost::scoped_ptr<Picture> pict(qrgb_->createPicture());
-  boost::scoped_ptr<PictureIndexed> ppc(reducePictureColors(pict.get()));
+  std::unique_ptr<Picture> pict(qrgb_->createPicture());
+  std::unique_ptr<PictureIndexed> ppc(reducePictureColors(pict.get()));
 
   pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
 
@@ -84,9 +84,9 @@ void EIViewer::toGrayScale(urania::Window* qw)
     return;
 
 
-  boost::scoped_ptr<Picture> pict(qrgb_->createPicture());
+  std::unique_ptr<Picture> pict(qrgb_->createPicture());
 
-  boost::scoped_ptr<PictureIndexed> 
+  std::unique_ptr<PictureIndexed> 
     ppc(createPictureGrayScaleIndexed(pict.get()));
 
   pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));

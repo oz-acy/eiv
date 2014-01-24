@@ -9,8 +9,8 @@ libdir = /usr/local/mw/lib
 CXXFLAGS = -c -O2 -DWINVER=0x500 -D_UNICODE -DUNICODE -std=gnu++11 -I/usr/local/mw/include
 LDFLAGS = -mwindows -static -L$(libdir)
 
-EIV_OBJ = main.o util.o eiv.o eiv.res.o
-EIV_PLUS_OBJ = main-plus.o util.o eiv2.o \
+EIV_OBJ = main.o util.o eiv.o eiv.res.o eivwmh.o
+EIV_PLUS_OBJ = main-plus.o util.o eiv2.o eivwmh.o \
 	eiv-plus.o savepct.o towallpaper.o eiv-plus.res.o
 
 URANIA_OBJ = $(libdir)/wmain.o
@@ -41,6 +41,7 @@ eiv-plus: $(EIV_PLUS_OBJ)
 
 ####
 eiv.o: eiv.cpp eiv.h
+eivwmh.o: eivwmh.cpp eiv.h
 eiv2.o: eiv2.cpp eiv.h
 
 eiv-plus.o: eiv.cpp eiv.h

@@ -2,15 +2,14 @@
  *
  *  main.cpp
  *  by oZ/acy
- *  (c) 2002-2012 oZ/acy. ALL RIGHTS RESERVED.
+ *  (c) 2002-2014 oZ/acy. ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *  userMain() ‘¼
  *
- *  last update: 13 May MMXII
- *************************************************************************/
+ *  last update: 25 Jan MMXIV
+ */
 #include "eiv.h"
-#include <memory>
 #include <themis/strconv.h>
 
 
@@ -41,22 +40,22 @@ int userMain()
     de.w = 300;
     de.h = 280;
 
-    EIVWMHManager* mng = new EIVWMHManager;
+    EIVWMHandler* hndlr = new EIVWMHandler();
 
-    mng->set(EIV_MENU_OPEN, EIViewer::onMenuOpen);
-    mng->set(EIV_MENU_END, EIViewer::onMenuEnd);
-    mng->set(EIV_MENU_ABOUT, EIViewer::onMenuAbout);
+    hndlr->set(EIV_MENU_OPEN, EIViewer::onMenuOpen);
+    hndlr->set(EIV_MENU_END, EIViewer::onMenuEnd);
+    hndlr->set(EIV_MENU_ABOUT, EIViewer::onMenuAbout);
 
 #ifdef EIV_PLUS
-    mng->set(EIV_MENU_SAVE, EIViewer::onMenuSave);
-    mng->set(EIV_MENU_CNV_TO256, EIViewer::onMenuCnvTo256);
-    mng->set(EIV_MENU_CNV_GS, EIViewer::onMenuCnvGS);
-    mng->set(EIV_MENU_WALL_CENTER, EIViewer::onMenuWallCenter);
-    mng->set(EIV_MENU_WALL_TILE, EIViewer::onMenuWallTile);
-    mng->set(EIV_MENU_WALL_EXT, EIViewer::onMenuWallExt);
+    hndlr->set(EIV_MENU_SAVE, EIViewer::onMenuSave);
+    hndlr->set(EIV_MENU_CNV_TO256, EIViewer::onMenuCnvTo256);
+    hndlr->set(EIV_MENU_CNV_GS, EIViewer::onMenuCnvGS);
+    hndlr->set(EIV_MENU_WALL_CENTER, EIViewer::onMenuWallCenter);
+    hndlr->set(EIV_MENU_WALL_TILE, EIViewer::onMenuWallTile);
+    hndlr->set(EIV_MENU_WALL_EXT, EIViewer::onMenuWallExt);
 #endif // EIV_PLUS
 
-    std::auto_ptr<Window> pw(de.create(mng, EIV_MAIN_MENU));
+    std::auto_ptr<Window> pw(de.create(hndlr, EIV_MAIN_MENU));
 
     std::vector<std::string> args = System::getCmdLineArgs();
     if (args.size() == 2)

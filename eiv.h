@@ -3,20 +3,20 @@
  *  eiv.h
  *
  *  by oZ/acy
- *  (c) 2002-2012 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2014 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
- *  last update: 13 May MMXII
+ *  last update: 25 Jan MMXIV
  *
- *************************************************************************/
+ */
 #ifndef INC_EIV_HEADER_
 #define INC_EIV_HEADER_
 
 #include <urania/win.h>
 #include <urania/dialog.h>
 #include <urania/cmndlg.h>
-#include <boost/scoped_ptr.hpp>
+#include <memory>
 #include "eiv_res.h"
 
 
@@ -38,20 +38,21 @@
 class EIViewer
 {
 private:
-  static boost::scoped_ptr<EIViewer> eiv_S;
+  static std::unique_ptr<EIViewer> eiv_S;
 
   std::wstring appTitle_;
   std::wstring wpPath_;
-  boost::scoped_ptr<urania::PaintMemDevice> qrgb_;
-  boost::scoped_ptr<urania::PaintMemDeviceIndexed> pvd_;
+  std::unique_ptr<urania::PaintMemDevice> qrgb_;
+  std::unique_ptr<urania::PaintMemDeviceIndexed> pvd_;
   int vx_, vy_;
   bool scrX_, scrY_;
-  boost::scoped_ptr<urania::OpenFileDialog> opn_;
-  boost::scoped_ptr<urania::SaveFileDialog> svd_;
+  std::unique_ptr<urania::OpenFileDialog> opn_;
+  std::unique_ptr<urania::SaveFileDialog> svd_;
 
+private:
+  EIViewer();
 
 public:
-  EIViewer();
   ~EIViewer() {}
 
   static EIViewer* get();
@@ -74,8 +75,8 @@ public:
   static void onMenuWallTile(urania::Window* win);
   static void onMenuWallExt(urania::Window* win);
 
-  static void setXPos(urania::Window* pw, int x);
-  static void setYPos(urania::Window* pw, int y);
+  void setX(urania::Window* pw, int x);
+  void setY(urania::Window* pw, int y);
 
   void loadImage(urania::Window* pw, const std::wstring& file);
   void saveImage(urania::Window* pw, const std::wstring& file);
@@ -94,7 +95,7 @@ public:
  *  EIVWMHManager
  *  メインウィンドウ用のメッセージマネジャー
  */
-class EIVWMHManager : public urania::WMHManager
+class EIVWMHandler : public urania::WMHandler
 {
 public:
   bool onDestroy();
