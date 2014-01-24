@@ -1,0 +1,77 @@
+///////////////////////////////////////////////////////////////////////////
+//  eiv.rc
+//  (c) 2002-2007 oZ/acy.  ALL RIGHTS RESERVED.
+//
+//  EIV用リソース
+//////////////////////////////////////////////////////////////////////////
+
+#ifndef WORKSHOP_INVOKED
+#include "windows.h"
+#endif
+
+#include "eiv_res.h"
+
+
+// アプリのアイコン
+EIV_ICON  ICON  icon1.ico
+
+
+// メインメニュー
+EIV_MAIN_MENU MENU LOADONCALL DISCARDABLE
+BEGIN
+  POPUP "&File"
+  BEGIN
+    MENUITEM "&Open", EIV_MENU_OPEN
+    MENUITEM "&Save", EIV_MENU_SAVE
+    MENUITEM SEPARATOR
+    MENUITEM "256色に減色", EIV_MENU_CNV_TO256
+    MENUITEM "グレイスケール化", EIV_MENU_CNV_GS
+    MENUITEM "壁紙に設定(中央に)", EIV_MENU_WALL_CENTER
+    MENUITEM "壁紙に設定(竝べて)", EIV_MENU_WALL_TILE
+    MENUITEM "壁紙に設定(擴大)", EIV_MENU_WALL_EXT
+    MENUITEM SEPARATOR
+    MENUITEM "&End", EIV_MENU_END
+  END
+  MENUITEM "&About", EIV_MENU_ABOUT
+END
+
+
+// 256減色処理待ちダイアログ
+EIV_WAITDLG DIALOG  DISCARDABLE 30, 30, 170, 30
+STYLE WS_POPUP|WS_BORDER|WS_VISIBLE
+CAPTION "Wait!!"
+BEGIN
+  LTEXT "処理中. しばらくお待ち下さい...", 277, 16, 12, 150, 16
+END
+
+
+
+// PNG保存ダイアログ (24bit)
+EIV_PNGDLG DIALOG 30, 30, 130, 45
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "PNG形式の保存"
+LANGUAGE LANG_JAPANESE, 0x1
+FONT 0, ""
+BEGIN
+    CHECKBOX "インターレスで保存", EIV_PNGCHECK, 8, 6, 88, 14,
+      BS_CHECKBOX | BS_AUTOCHECKBOX | WS_TABSTOP
+    PUSHBUTTON "OK", EIV_PNGOK, 16, 25, 39, 14
+    PUSHBUTTON "キャンセル", EIV_PNGCANCEL, 61, 25, 52, 14
+END
+
+// PNG保存ダイアログ (256 indexed)
+EIV_PNGIDXDLG DIALOG 30, 30, 130, 57
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "PNG形式の保存"
+LANGUAGE LANG_JAPANESE, 0x1
+FONT 0, ""
+BEGIN
+    CHECKBOX "インターレスで保存", EIV_PNGIDXCHECK, 15, 19, 88, 14,
+      BS_CHECKBOX | BS_AUTOCHECKBOX | WS_TABSTOP
+    CHECKBOX "左上角の色を透明化", EIV_PNGIDXTRANS, 15, 5, 88, 14,
+      BS_CHECKBOX | BS_AUTOCHECKBOX | WS_TABSTOP
+    PUSHBUTTON "OK", EIV_PNGIDXOK, 14, 36, 39, 14
+    PUSHBUTTON "キャンセル", EIV_PNGIDXCANCEL, 62, 36, 52, 14
+END
+
+//eof

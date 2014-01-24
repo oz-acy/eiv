@@ -1,0 +1,100 @@
+25 Apr MMXI  oZ/acy <acy@hiemalis.org>
+  ver. 0.33/0.33+ released
+  boost-1.46-1、libpng-1.5.2、libjpeg-v8cを適用。
+  build by GCC 4.6.0 targeted i686-mingw32
+
+2 Sep MMX  oZ/acy <acy@hiemalis.org>
+  ver. 0.32/0.32+ released
+  boost-1.44、zlib-1.2.5、libpng-1.4.3を適用。
+  build by GCC 4.5.1 targeted i686-mingw32
+
+10 Dec MMIX  oZ/acy <acy@hiemalis.org>
+  ver. 0.31/0.31+ released
+  libpng-1.2.41を適用。
+
+15 Nov MMIX  oZ/acy <acy@hiemalis.org>
+  ver. 0.30/0.30+ released
+  ファイル名に日本語が混ざつた場合のバグを修正。
+  libpng-1.2.40を適用。
+  build by GCC 4.4.2 targeted i686-mingw32
+
+16 Apr MMIX  oZ/acy <acy@hiemalis.org>
+  ver. 0.29/0.29+ released
+  機能面の變化はなし。
+  UNICODE版Win32APIでリビルド。
+  libpng-1.2.35を適用。
+
+24 Apr MMVIII  oZ/acy <acy@hiemalis.org>
+  ver. 0.28/0.28+ released
+
+27 Feb MMVIII  oZ/acy <acy@hiemalis.org>
+  ver. 0.27/0.27+ released
+  通常版から壁紙設定機能を削除。
+  内部的には、libpng1.2.25を適用。
+
+7 Feb MMVIII  oZ/acy <acy@hiemalis.org>
+  ver. 0.26c/0.26c+ released
+  畫像に對する變更機能を除いたノーマル版と、殘したPLUS版に分岐。
+
+2 Oct MMVII  oZ/acy <acy@hiemalis.org>
+  ver. 0.26b+0.1 released.
+  グレイスケール化機能追加。
+  取り敢へずの措置として PLUS版 として分岐。
+
+18 Jun MMVI  oZ/acy <acy@hiemalis.org>
+  ver. 0.26b released.
+  libpng 1.2.10を適用。
+
+6 Apl MMVI  oZ/acy <acy@hiemalis.org>
+  ver. 0.26 released.
+  build by GCC on Cygwin with -mno-cygwin option
+
+2 Aug MMV  oZ/acy <acy@hiemalis.org>
+  ver. 0.25e released.
+  zlib 1.2.3を適用。
+
+18 Dec MMIV  oZ/acy <acy@hiemalis.org>
+  ver. 0.25d released.
+  libpng 1.2.8を適用。
+
+15 Dec MMIV  oZ/acy <acy@hiemalis.org>
+  ver. 0.25c released.
+  libpng 1.2.7を適用。
+
+5 Aug MMIV  oZ/acy <acy@hiemalis.org>
+  ver. 0.25b released.
+  libpng のセキュリティーホール發覺に伴ひ、libpng 1.2.6rc1 を適用。
+
+9 Jun MMIV  oZ/acy <acy@hiemalis.org>
+  ver. 0.25 released.
+  VC++ Toolkit 2003 で build。
+  256色イメージをPNGで保存する際に、左上角のピクセルの色を透明化する機能を追加。
+
+20 Sep MMIII  oZ/acy <acy@hiemalis.org>
+  ver. 0.24 released.
+  壁紙用一時ファイルを置くディレクトリを、
+  環境變數 TMP または TEMP で指定されるディレクトリに變更。
+
+22 Jul MMIII  oZ/acy <acy@hiemalis.org>
+  ver. 0.23b released.
+  減色ルーチンに對するエンバグを修正。
+
+21 Jul MMIII  oZ/acy <acy@hiemalis.org>
+  ver. 0.23 released.
+  マウスカーソルが化けることがあるバグを修正。
+
+10 Mar MMIII  oZ/acy <acy@hiemalis.org>
+  ver. 0.22 released.
+  壁紙設定方法に「擴大」を追加。
+
+5 Aug MMII  oZ/acy <acy@hiemalis.org>
+  ver. 0.21 released.
+  インターレスPNG保存に對應。
+
+21 Jun MMI  oZ/acy <acy@hiemalis.org>
+  ver. 0.20 released.
+  PPM binary に對應。
+
+21 Jan MMI  oZ/acy <acy@hiemalis.org>
+  ver. 0.17 released.
+  減色アルゴリズムを差し替へ。

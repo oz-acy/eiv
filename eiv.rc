@@ -1,0 +1,38 @@
+///////////////////////////////////////////////////////////////////////////
+//  eiv.rc
+//  (c) 2002-2007 oZ/acy.  ALL RIGHTS RESERVED.
+//
+//  EIV用リソース
+//////////////////////////////////////////////////////////////////////////
+
+#ifndef WORKSHOP_INVOKED
+#include "windows.h"
+#endif
+
+#include "eiv_res.h"
+
+
+// アプリのアイコン
+EIV_ICON  ICON  icon1.ico
+
+
+// メインメニュー
+EIV_MAIN_MENU MENU LOADONCALL DISCARDABLE
+BEGIN
+  POPUP "&File"
+  BEGIN
+    MENUITEM "&Open", EIV_MENU_OPEN
+//    MENUITEM SEPARATOR
+//    MENUITEM "壁紙に設定(中央に)", EIV_MENU_WALL_CENTER
+//    MENUITEM "壁紙に設定(竝べて)", EIV_MENU_WALL_TILE
+//    MENUITEM "壁紙に設定(擴大)", EIV_MENU_WALL_EXT
+//    MENUITEM SEPARATOR
+    MENUITEM "&End", EIV_MENU_END
+  END
+  MENUITEM "&About", EIV_MENU_ABOUT
+END
+
+
+
+
+//eof

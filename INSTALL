@@ -1,0 +1,9 @@
+"INSTALL" of EIV
+
+make して出來上がつた eiv.exe を適當なディレクトリに置いて使用されたし。
+アンインストールは eiv.exe を削除すればよい。
+
+
+Makefile は作者の環境用に出來上がつてゐるので、
+CC、CXX、WRES、libdir、CXXFLAGS、LDFLAGS を
+適宜變更する必要があるかと思ふ。
