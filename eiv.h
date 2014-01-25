@@ -102,11 +102,12 @@ public:
   bool onSize(urania::Window* win, int typ, int w, int h);
   bool onKeyDown(urania::Window* win, int code, int rep, bool prev);
   void onPaint(urania::BasicWindow* win, urania::PaintDevice* pd);
+  void onScroll(urania::Window* win, int id, int pos);
+  void onMouseWheel(urania::Window* win, int delta, int key, int x, int y);
 
   void onDropFiles(
     urania::Window* win, std::vector<std::wstring>& fa, int x, int y);
 
-  void onScroll(urania::Window* win, int id, int pos);
 
 };
 
