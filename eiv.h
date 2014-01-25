@@ -82,7 +82,7 @@ public:
   void saveImage(urania::Window* pw, const std::wstring& file);
 
   void sizeHandleAndMore(urania::Window* pw);
-
+  void handleMenu(urania::Window* pw);
 
   void to256(urania::Window* pw);
   void toGrayScale(urania::Window* pw);

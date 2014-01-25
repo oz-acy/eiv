@@ -63,6 +63,7 @@ int userMain()
              pw.get(),
              System::getLongPathName(System::cnvMBStr2WStr(args[1])));
 
+    eiv->handleMenu(pw.get());
     eiv->sizeHandleAndMore(pw.get());
 
     // Apprication Start

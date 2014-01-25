@@ -44,11 +44,11 @@ void EIViewer::to256(urania::Window* qw)
 
   std::unique_ptr<Picture> pict(qrgb_->createPicture());
   std::unique_ptr<PictureIndexed> ppc(reducePictureColors(pict.get()));
-
   pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
-
   qrgb_.reset();
   wtdlg.reset();
+
+  handleMenu(qw);
 
   std::wstring str = L"(256 Color Image)";
   str += std::wstring(L"  - ") + appTitle_;
@@ -79,19 +79,17 @@ void EIViewer::toGrayScale(urania::Window* qw)
   using namespace polymnia;
   using namespace urania;
 
-
   if (!qrgb_)
     return;
 
-
   std::unique_ptr<Picture> pict(qrgb_->createPicture());
-
   std::unique_ptr<PictureIndexed> 
     ppc(createPictureGrayScaleIndexed(pict.get()));
-
   pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
-
   qrgb_.reset();
+
+
+  handleMenu(qw);
 
   std::wstring str = L"(256 Color Image)";
   str += std::wstring(L"  - ") + appTitle_;

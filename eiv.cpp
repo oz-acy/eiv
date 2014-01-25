@@ -124,6 +124,43 @@ void EIViewer::sizeHandleAndMore(urania::Window* pw_TG)
 }
 
 
+/*=================================
+ *  EIViewer::handleMenu()
+ *  メニューの操作
+ */
+void EIViewer::handleMenu(urania::Window* pw)
+{
+  urania::Menu* menu = pw->getMenu().get();
+  if (qrgb_)
+  {
+    menu->enableItem(EIV_MENU_SAVE);
+    menu->enableItem(EIV_MENU_CNV_TO256);
+    menu->enableItem(EIV_MENU_CNV_GS);
+    menu->enableItem(EIV_MENU_WALL_CENTER);
+    menu->enableItem(EIV_MENU_WALL_TILE);
+    menu->enableItem(EIV_MENU_WALL_EXT);
+  }
+  else if (pvd_)
+  {
+    menu->enableItem(EIV_MENU_SAVE);
+    menu->grayItem(EIV_MENU_CNV_TO256);
+    menu->grayItem(EIV_MENU_CNV_GS);
+    menu->enableItem(EIV_MENU_WALL_CENTER);
+    menu->enableItem(EIV_MENU_WALL_TILE);
+    menu->enableItem(EIV_MENU_WALL_EXT);
+  }
+  else
+  {
+    menu->grayItem(EIV_MENU_SAVE);
+    menu->grayItem(EIV_MENU_CNV_TO256);
+    menu->grayItem(EIV_MENU_CNV_GS);
+    menu->grayItem(EIV_MENU_WALL_CENTER);
+    menu->grayItem(EIV_MENU_WALL_TILE);
+    menu->grayItem(EIV_MENU_WALL_EXT);
+  }
+}
+
+
 
 /*====================================================
  *  EIViewer::loadImage()
@@ -198,6 +235,8 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
 
 
   // 再描畫やウィンドウのタイトル變更など
+  handleMenu(pw);
+
   std::unique_ptr<PaintDevice> ppd(pw->getPaintDevice());
   ppd->clear(RgbColor(255, 255, 255));
   ppd.reset();
