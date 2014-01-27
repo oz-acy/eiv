@@ -2,22 +2,24 @@
  *
  *  towallpaper.cpp
  *  by oZ/acy
- *  (c) 2002-2009 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2014 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
- *  last update: 4 Apr MMIX
+ *  last update: 28 Jan MMXIV
  **************************************************************************/
 #include <urania/registry.h>
 #include "eiv.h"
 
 
 /*============================================
-*  EIViewer::toWallPaper()
-*  壁紙に設定
-*
-*  int mode : 0: 中央, 1:竝べる 2:擴大
-*===========================================*/
+ *  EIViewer::toWallPaper()
+ *  壁紙に設定
+ *
+ *  int mode : 0: 中央, 1:竝べる 2:擴大
+ *
+ *  2014.1.28: アスペクト比を維持しての擴大に變更
+ */
 void EIViewer::toWallPaper(int mode)
 {
   if (!qrgb_ && !pvd_)
@@ -48,7 +50,7 @@ void EIViewer::toWallPaper(int mode)
       break;
 
     case 2:
-      ss1 = L"2";
+      ss1 = L"6";
       ss2 = L"0";
       modechange = true;
       break;
