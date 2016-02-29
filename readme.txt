@@ -1,98 +1,102 @@
-�ȈՎ��`���r���[�A�[ "EIV" & "EIV PLUS"
-  Ver 0.32/0.32+ (2 Sep 2010 built)
+簡易式畫像ビューアー "EIV" & "EIV PLUS"
+  Ver 0.35 (2016.x.y built)
 
-(C) 2000-2010 oZ/acy, ALL RIGHTS RESERVED.
-
-
-�Țd���Ղ��`���r���[�A�[�ł���B
-BMP�APNG�AJPEG��\���ł���B
-�A�������͂���B
-  * 16bit BMP �ɂ͛��䂹��. (�ʂɖ��Ȃ���炤�Ƃ������Ղȍl�ւł���B)
-  * PNG�̃A���t�@�J���[�A�����F�͖����B
-
-���܂��I�v�f (PLUS�ł̂�)
-  * �ǎ��ݒ�@�\
-    ���̝� TMP (TMP ���ݒ肳��Ă�Ȃ��ꍇ�� TEMP) �Ŏw�肳�ꂽ�f�B���N�g����
-    �ꎞ�t�@�C�����쐬�����B
-  * 24bit Color ���� 256 Color �ւ̌��F�@�\
-  * �O���C�X�P�[����
-  * �t�@�C���ۑ��\
-    PNG�ۑ����A256 Color �`���Ȃ獶��p�̐F�𓧖��F�ɏo�҂�B
-
-�C���X�g�[�����@
-  ���s�t�@�C�� eiv.exe �܂��� eiv-plus.exe ��K�c�ȃf�B���N�g���ɒu���΂悢�B
-
-�A���C���X�g�[�����@
-  ���s�t�@�C�����폜����΂悢�B
+(C) 2000-2016 oZ/acy, ALL RIGHTS RESERVED.
 
 
+簡單安易な畫像ビューアーである。
+BMP、PNG、JPEGを表示できる。
+但し制限はある。
+  * 16bit BMP には對應せず. (別に問題ないやらうという安易な考へである。)
+  * PNGのアルファカラー、透明色は無視。
 
-���s��
-  Windows XP/2k�ȍ~ �Ȃ瑽���������Ƃł��炤�BVista�ł������Ă��B
+おまけ的要素
+  * 壁紙設定機能
+    環境變數 TMP (TMP が設定されてゐない場合は TEMP) で指定されたディレクトリに
+    一時ファイルが作成される。
+  * 24bit Color から 256 Color への減色機能
+  * グレイスケール化
+  * ファイル保存可能
+    PNG保存時、256 Color 畫像なら左上角の色を透明色に出來る。
 
-����܁A�Ɛӂ��̑�
-  �� ���m�\�t�g�E�F�A�m����܋y����l�i�܃n��҃^��oZ/acy�j���X
-  �� oZ/acy�n���m�\�t�g�E�F�A�m�g�p�j�����@���i�����ʃj���V�e���Ӄj�C�Z�X
-  �O oZ/acy�n���m�\�t�g�E�F�A�J����Z�T���j�����@���i�����ʃj���V�e��
-     �Ӄj�C�Z�X
-  �l oZ/acy�n���m�\�t�g�E�F�A�m�g�p�҃��T�|�[�g�X���ӎu�n�L�X���h��
-     �`���n���n�X
-  �� ���l������j���m�\�t�g���g�p�X���R�g����
-  �Z ���l�����m�����g���j�z�z�X���������m�\�t�g�E�F�A���񎟔z�z�X���R�g����
-     �A�񎟔z�z�m���ʐ��V�^�����ʃj�c�LoZ/acy �n���萒m�Z�X
-  �� oZ/acy�n���ҏ�L���ڃ��C�Ӄj�̍X�X���܌������ۃX
+インストール方法
+  實行ファイル eiv.exe を適當なディレクトリに置けばよい。
+
+アンインストール方法
+  實行ファイルを削除すればよい。
 
 
-�X�V����
-11.04.25 boost-1.46-1�Alibpng-1.5.2�Alibjpeg-v8c��K�p�B
-         build by GCC 4.6.0 targeted i686-mingw32
+
+實行環境
+  作者は64bit版Windows 10で動かしてゐる。
+  32bit版のOSで動くのか動かないのかは良く分からない。
+
+著作權、免責その他
+  一 此ノソフトウェアノ著作權及著作人格權ハ作者タルoZ/acyニ屬ス
+  二 oZ/acyハ此ノソフトウェアノ使用ニ因ル如何ナル結果ニ對シテモ責ニ任セス
+  三 oZ/acyハ此ノソフトウェアカ動作セサルニ因ル如何ナル結果ニ對シテモ
+     責ニ任セス
+  四 oZ/acyハ此ノソフトウェアノ使用者ヲサポートスル意志ハ有スレドモ
+     義務ハ負ハス
+  五 何人モ勝手ニ此ノソフトヲ使用スルコトヲ得
+  六 何人モ此ノ文書ト共ニ配布スル限リ此ノソフトウェアヲ二次配布スルコトヲ得
+     但二次配布ノ結果生シタル結果ニツキoZ/acy ハ一切關知セス
+  七 oZ/acyハ將來上記項目ヲ任意ニ變更スル權限ヲ留保ス
+
+
+更新履歴
+16.02.29 PLUS版に一本化。
+         build by Clang++ 3.7.1 targeting x86_64-w64-windows-gnu
+         (Ver. 0.35)
+11.04.25 boost-1.46-1、libpng-1.5.2、libjpeg-v8cを適用。
+         build by GCC 4.6.0 targeting i686-mingw32
          (Ver. 0.33/0.33+)
-10.09.02 boost-1.44�Azlib-1.2.5�Alibpng-1.4.3��K�p�B
-         build by GCC 4.5.1 targeted i686-mingw32
+10.09.02 boost-1.44、zlib-1.2.5、libpng-1.4.3を適用。
+         build by GCC 4.5.1 targeting i686-mingw32
          (Ver. 0.32/0.32+)
-09.12.10 libpng-1.2.41��K�p�B (Ver. 0.31/0.31+)
-09.11.15 �t�@�C�����ɓ��{�ꂪ�������ꍇ�̃o�O���C���B
-         libpng-1.2.40��K�p�B
-         build by GCC 4.4.2 targetted i686-mingw32
+09.12.10 libpng-1.2.41を適用。 (Ver. 0.31/0.31+)
+09.11.15 ファイル名に日本語が混ざつた場合のバグを修正。
+         libpng-1.2.40を適用。
+         build by GCC 4.4.2 targeting i686-mingw32
          (Ver. 0.30/0.30+)
-09.04.16 �@�\�ʂ̝̉��͂Ȃ��BUNICODE��Win32API�Ń��r���h�B
-         libpng-1.2.35��K�p�B (Ver. 0.29/0.29+)
+09.04.16 機能面の變化はなし。UNICODE版Win32APIでリビルド。
+         libpng-1.2.35を適用。 (Ver. 0.29/0.29+)
 08.04.24 Ver. 0.28/0.28+
-08.02.27 �ʏ�ł���ǎ��ݒ�@�\���폜�B
-         �����I�ɂ́Alibpng1.2.25��K�p�B(Ver. 0.27/0.27+)
-08.02.07 �`���̌��F�E�O���C�X�P�[�����E�ۑ��@�\���������ʏ�łƁA
-         ����㔂��@�\��L����PLUS�łɕ����B 
-         �����I�ɂ́Alibpng 1.2.24��K�p�B (Ver. 0.26c/0.26c+)
-07.10.02 �O���C�X�P�[�����@�\�ǉ��B (Ver. 0.26b+0.1)
-06.06.18 libpng 1.2.10 ��K�p�B (Ver. 0.26b)
-06.04.06 Cygwin gcc -mno-cygwin �� build�B (Ver. 0.26)
-05.08.02 zlib 1.2.3 ��K�p�B (Ver. 0.25e)
-04.12.18 libpng 1.2.8 ��K�p�B (Ver. 0.25d)
-04.12.15 libpng 1.2.7 ��K�p�B (Ver. 0.25c)
-04.08.05 libpng �̃Z�L�����e�B�[�z�[����S�ɔ��ЁAlibpng 1.2.6rc1 ��K�p�B
+08.02.27 通常版から壁紙設定機能を削除。
+         内部的には、libpng1.2.25を適用。(Ver. 0.27/0.27+)
+08.02.07 畫像の減色・グレイスケール化・保存機能を除いた通常版と、
+         引き續き機能を有するPLUS版に分離。 
+         内部的には、libpng 1.2.24を適用。 (Ver. 0.26c/0.26c+)
+07.10.02 グレイスケール化機能追加。 (Ver. 0.26b+0.1)
+06.06.18 libpng 1.2.10 を適用。 (Ver. 0.26b)
+06.04.06 Cygwin gcc -mno-cygwin で build。 (Ver. 0.26)
+05.08.02 zlib 1.2.3 を適用。 (Ver. 0.25e)
+04.12.18 libpng 1.2.8 を適用。 (Ver. 0.25d)
+04.12.15 libpng 1.2.7 を適用。 (Ver. 0.25c)
+04.08.05 libpng のセキュリティーホール發覺に伴ひ、libpng 1.2.6rc1 を適用。
          (Ver. 0.25b)
-04.06.09 VC++ Toolkit 2003 �� build�B
-         256�F�C���[�W��PNG�ŕۑ�����ۂ�, ����p�̃s�N�Z���̐F�𓧖�������
-         �@�\��ǉ��B (Ver. 0.25)
-03.09.20 �ǎ��p�ꎞ�t�@�C����u���f�B���N�g�����A���̝� TMP �܂��� TEMP ��
-         �w�肳���f�B���N�g���ɝ̍X�B (Ver. 0.24)
-03.07.22 ���F���[�`���ɃG���o�O�����̂��C���B (Ver. 0.23b)
-03.07.21 �}�E�X�J�[�\���������邱�Ƃ�����o�O���C���B (Ver. 0.23)
-03.06.10 �ǎ��ݒ���@�Ɂu����v��ǉ��B (Ver. 0.22)
-02.08.05 �C���^�[���XPNG�ۑ��ɛ���B (Ver. 0.21)
-01.06.21 PPM(binary)�ɛ���B (Ver. 0.20)
-01.01.21 ���F�A���S���Y���������ւցB (Ver. 0.17)
-00.12.09 �����q��ݒ莞��.bmp�����悤�ɏC���B (Ver. 0.16b)
-00.10.23 �g�p���C�u������ libpng 1.0.8 �Ƀ��@�[�W�����A�b�v�B
-00.10.13 �����\����̍X�B�A�C�R���̍X�B���F���_�C�A���O�o���B (Ver. 0.15b)
-00.09.22 �����\���Ɏ኱�̍X�B�����͂��̂܂܁B
+04.06.09 VC++ Toolkit 2003 で build。
+         256色イメージをPNGで保存する際に, 左上角のピクセルの色を透明化する
+         機能を追加。 (Ver. 0.25)
+03.09.20 壁紙用一時ファイルを置くディレクトリを、環境變數 TMP または TEMP で
+         指定されるディレクトリに變更。 (Ver. 0.24)
+03.07.22 減色ルーチンにエンバグしたのを修正。 (Ver. 0.23b)
+03.07.21 マウスカーソルが化けることがあるバグを修正。 (Ver. 0.23)
+03.06.10 壁紙設定方法に「擴大」を追加。 (Ver. 0.22)
+02.08.05 インターレスPNG保存に對應。 (Ver. 0.21)
+01.06.21 PPM(binary)に對應。 (Ver. 0.20)
+01.01.21 減色アルゴリズムを差し替へ。 (Ver. 0.17)
+00.12.09 擴張子非設定時に.bmpがつくように修正。 (Ver. 0.16b)
+00.10.23 使用ライブラリを libpng 1.0.8 にヴァージョンアップ。
+00.10.13 内部構造を變更。アイコン變更。減色中ダイアログ出現。 (Ver. 0.15b)
+00.09.22 内部構造に若干變更。擧動はそのまま。
 00.09.03 version 0.12b
 
-���A���̃v���O�����̈ꕔ�́Alibpng�Azlib�Alibjpeg���g�p���Ă��B
-�e���C�u�����̍�҂ɐ[�ӂ���B
+尚、このプログラムの一部は、libpng、zlib、libjpegを使用してゐる。
+各ライブラリの作者に深謝する。
 
-  libpng  : Glenn Randers-Pehrson ��ɂ��B http://www.libpng.org/
-  zlib    : Jean-loup Gailly �� Mark Adler �ɂ��B
-  libjpeg : Independent JPEG Group �ɂ��B
+  libpng  : Glenn Randers-Pehrson らによる。 http://www.libpng.org/
+  zlib    : Jean-loup Gailly と Mark Adler による。
+  libjpeg : Independent JPEG Group による。
 
-�ȏ�
+以上

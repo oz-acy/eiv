@@ -2,24 +2,25 @@
  *
  *  eiv.cpp
  *  by oZ/acy
- *  (c) 2002-2014 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2016 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
- *  last update: 25 Jan MMXIV
+ *  å±¥æ­´
+ *    2016.2.29  ä¿®æ­£ v0.35
  *************************************************************************/
-#include "eiv.h"
+
 #include <polymnia/dibio.h>
 #include <polymnia/pngio.h>
 #include <polymnia/jpegio.h>
+#include "eiv.h"
 
 
 
 
 /*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- *  class EIViewer ‚Ì staticƒf[ƒ^ƒƒ“ƒo’è‹`
+ *  class EIViewer ã® staticãƒ‡ãƒ¼ã‚¿ãƒ¡ãƒ³ãƒå®šç¾©
  */
-
 std::unique_ptr<EIViewer> EIViewer::eiv_S;
 
 
@@ -27,7 +28,7 @@ std::unique_ptr<EIViewer> EIViewer::eiv_S;
 
 /*=====================================================
  *  EIViewer::get()
- *  ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìæ“¾
+ *  ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®å–å¾—
  */
 EIViewer* EIViewer::get()
 {
@@ -48,26 +49,21 @@ EIViewer::EIViewer() : vx_(0), vy_(0), scrX_(false), scrY_(false)
 {
   using namespace urania;
 
-  // ƒtƒ@ƒCƒ‹ƒ_ƒCƒAƒƒO
+  // ãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
   opn_.reset(
     OpenFileDialog::create(
       L"ImageFile(.bmp .png .jpg)|*.bmp;*.png;*.jpg;*.jpeg|"));
 
-#ifdef EIV_PLUS
   svd_.reset(
     SaveFileDialog::create(
       L"ImageFile(.bmp .png .jpg)|*.bmp;*.png;*.jpg;*.jpeg|", L"bmp"));
 
-  // •Ç†—pƒpƒXİ’è
+  // å£ç´™ç”¨ãƒ‘ã‚¹è¨­å®š
   wchar_t tmpd[MAX_PATH + 1];
   GetTempPath(MAX_PATH, tmpd);
   wpPath_ = std::wstring(tmpd) + L"gpeiv_wall.bmp";
-  // ƒ^ƒCƒgƒ‹•¶š—ñ
-  appTitle_ = L"EIV+";
-#else
+  // ã‚¿ã‚¤ãƒˆãƒ«æ–‡å­—åˆ—
   appTitle_ = L"EIV";
-#endif // EIV_PLUS
-
 }
 
 
@@ -75,7 +71,7 @@ EIViewer::EIViewer() : vx_(0), vy_(0), scrX_(false), scrY_(false)
 
 /*================================================================
  *  EIViewer::sizeHandleAndMore()
- *  Window ‚ÌƒŠƒTƒCƒY‚È‚Ç‚ÉƒXƒNƒ[ƒ‹ƒo[‚ÌÄİ’è‚ğ‚·‚é
+ *  Window ã®ãƒªã‚µã‚¤ã‚ºæ™‚ãªã©ã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼ã®å†è¨­å®šã‚’ã™ã‚‹
  */
 void EIViewer::sizeHandleAndMore(urania::Window* pw_TG)
 {
@@ -96,8 +92,8 @@ void EIViewer::sizeHandleAndMore(urania::Window* pw_TG)
       bh = pvd_->height();
     }
 
-    pw_TG->setSBRange(urania::ID_SBH, 0, bw - 1, w);
-    pw_TG->setSBRange(urania::ID_SBV, 0, bh - 1, h);
+    pw_TG->setRangeSB(urania::ID_SBH, 0, bw - 1, w);
+    pw_TG->setRangeSB(urania::ID_SBV, 0, bh - 1, h);
 
     if (bw - w < vx_)
       vx_ = bw - w;
@@ -109,8 +105,8 @@ void EIViewer::sizeHandleAndMore(urania::Window* pw_TG)
     if (vy_ < 0)
       vy_ = 0;
 
-    pw_TG->setHSBarPos(vx_);
-    pw_TG->setVSBarPos(vy_);
+    pw_TG->setPosHSB(vx_);
+    pw_TG->setPosHSB(vy_);
 
     pw_TG->invalidate();
     pw_TG->update();
@@ -118,15 +114,15 @@ void EIViewer::sizeHandleAndMore(urania::Window* pw_TG)
   }
   else
   {
-    pw_TG->disableHSBar();
-    pw_TG->disableVSBar();
+    pw_TG->disableHSB();
+    pw_TG->disableVSB();
   }
 }
 
 
 /*=================================
  *  EIViewer::handleMenu()
- *  ƒƒjƒ…[‚Ì‘€ì
+ *  ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®æ“ä½œ
  */
 void EIViewer::handleMenu(urania::Window* pw)
 {
@@ -136,27 +132,30 @@ void EIViewer::handleMenu(urania::Window* pw)
     menu->enableItem(EIV_MENU_SAVE);
     menu->enableItem(EIV_MENU_CNV_TO256);
     menu->enableItem(EIV_MENU_CNV_GS);
-    menu->enableItem(EIV_MENU_WALL_CENTER);
-    menu->enableItem(EIV_MENU_WALL_TILE);
-    menu->enableItem(EIV_MENU_WALL_EXT);
+    menu->enableItem(EIV_MENU_WALLPAPER);
+    //menu->enableItem(EIV_MENU_WALL_CENTER);
+    //menu->enableItem(EIV_MENU_WALL_TILE);
+    //menu->enableItem(EIV_MENU_WALL_EXT);
   }
   else if (pvd_)
   {
     menu->enableItem(EIV_MENU_SAVE);
     menu->grayItem(EIV_MENU_CNV_TO256);
     menu->grayItem(EIV_MENU_CNV_GS);
-    menu->enableItem(EIV_MENU_WALL_CENTER);
-    menu->enableItem(EIV_MENU_WALL_TILE);
-    menu->enableItem(EIV_MENU_WALL_EXT);
+    menu->enableItem(EIV_MENU_WALLPAPER);
+    //menu->enableItem(EIV_MENU_WALL_CENTER);
+    //menu->enableItem(EIV_MENU_WALL_TILE);
+    //menu->enableItem(EIV_MENU_WALL_EXT);
   }
   else
   {
     menu->grayItem(EIV_MENU_SAVE);
     menu->grayItem(EIV_MENU_CNV_TO256);
     menu->grayItem(EIV_MENU_CNV_GS);
-    menu->grayItem(EIV_MENU_WALL_CENTER);
-    menu->grayItem(EIV_MENU_WALL_TILE);
-    menu->grayItem(EIV_MENU_WALL_EXT);
+    menu->grayItem(EIV_MENU_WALLPAPER);
+    //menu->grayItem(EIV_MENU_WALL_CENTER);
+    //menu->grayItem(EIV_MENU_WALL_TILE);
+    //menu->grayItem(EIV_MENU_WALL_EXT);
   }
 }
 
@@ -164,7 +163,7 @@ void EIViewer::handleMenu(urania::Window* pw)
 
 /*====================================================
  *  EIViewer::loadImage()
- *  ‰æ‘œƒtƒ@ƒCƒ‹‚ğŠg’£q‚É‰‚¶‚Äƒ[ƒh‚·‚é
+ *  ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ‹¡å¼µå­ã«å¿œã˜ã¦ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
  */
 void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
 {
@@ -175,9 +174,9 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
   std::unique_ptr<Picture> pict;
   std::wstring ext = getFileExt(file);
 
-  std::string path = System::cnvWStr2MBStr(file);
+  std::string path = System::strcpyWideToMultiByte(file);
 
-  // °’£q‚Éœä‚¶‚Äƒ[ƒh
+  // æ“´å¼µå­ã«æ‡‰ã˜ã¦ãƒ­ãƒ¼ãƒ‰
   if (ext==L"bmp")
   {
     IndexedDibLoader bpload;
@@ -205,7 +204,7 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
   }
 
 
-  // ƒ[ƒh‚µ‚½ƒf[ƒ^‚ğ‚«‚¿‚ñ‚ÆŠi”[‚·‚é
+  // ãƒ­ãƒ¼ãƒ‰ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’ãã¡ã‚“ã¨æ ¼ç´ã™ã‚‹
   int w, h;
   std::wstring itype;
   if (ppc)
@@ -229,12 +228,12 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
   else {
     std::wstring s = L"Fault reading image file ";
     s += getFileTitle(file);
-    System::msgBox(L"Error", s + L".");
+    System::notify(L"Error", s + L".");
     return;
   }
 
 
-  // Ä•`á`‚âƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹ÌX‚È‚Ç
+  // å†æç•«ã‚„ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«è®Šæ›´ãªã©
   handleMenu(pw);
 
   std::unique_ptr<PaintDevice> ppd(pw->getPaintDevice());
@@ -257,8 +256,8 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
 
 /*====================================================
  *  EIViewer::setX()
- *  ‰¡ƒXƒNƒ[ƒ‹ƒo[‚ÌƒƒbƒZ[ƒWƒnƒ“ƒhƒ‰
- *  ‰æ‘œ“]‘—‚Ì¶ãÀ•W‚Ì…•½¬•ª‚ğİ’è
+ *  æ¨ªã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
+ *  ç”»åƒè»¢é€ã®å·¦ä¸Šåº§æ¨™ã®æ°´å¹³æˆåˆ†ã‚’è¨­å®š
  */
 void EIViewer::setX(urania::Window* pw, int x)
 {
@@ -269,8 +268,8 @@ void EIViewer::setX(urania::Window* pw, int x)
 
 /*=============================================================
  *  EIViewer::setY()
- *  cƒXƒNƒ[ƒ‹ƒo[‚ÌƒƒbƒZ[ƒWƒnƒ“ƒhƒ‰
- *  ‰æ‘œ“]‘—‚Ì¶ãÀ•W‚Ì‚’¼¬•ª‚ğİ’è
+ *  ç¸¦ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
+ *  ç”»åƒè»¢é€ã®å·¦ä¸Šåº§æ¨™ã®å‚ç›´æˆåˆ†ã‚’è¨­å®š
  */
 void EIViewer::setY(urania::Window* pw, int y)
 {
@@ -289,7 +288,7 @@ void EIViewer::onMenuOpen(urania::Window* win)
   EIViewer* const eiv = EIViewer::get();
   if (eiv->openFileDlg()->doModal(win))
   {
-    std::wstring fn = eiv->openFileDlg()->getPath();
+    std::wstring fn = eiv->openFileDlg()->getFilePath();
     eiv->loadImage(win, fn);
   }
 }
@@ -307,8 +306,9 @@ void EIViewer::onMenuEnd(urania::Window* win)
  */
 void EIViewer::onMenuAbout(urania::Window* win)
 {
-  std::wstring str = EIVNAME L"  " VERSTR L"\n" COPYRIGHTSTR;
-  urania::System::msgBox(L"About", str);
+  std::wstring str
+    = std::wstring(EIVNAME) + L"  " + VERSTR + L"\n" + COPYRIGHTSTR;
+  urania::System::notify(L"About", str);
 }
 
 

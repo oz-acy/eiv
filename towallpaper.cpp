@@ -2,25 +2,28 @@
  *
  *  towallpaper.cpp
  *  by oZ/acy
- *  (c) 2002-2014 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2016 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
- *  last update: 28 Jan MMXIV
+ *  履歴
+ *    2016.2.28  レジストリ操作を削除
  **************************************************************************/
+
 #include <urania/registry.h>
 #include "eiv.h"
 
 
 /*============================================
  *  EIViewer::toWallPaper()
- *  �ǎ��ɐݒ�
+ *  壁紙に設定
  *
- *  int mode : 0: ����, 1:⍂ׂ� 2:����
- *
- *  2014.1.28: �A�X�y�N�g����ێ����Ă̝���ɝ̍X
+ *  2014.1.28 アスペクト比を維持しての擴大に變更
+ *  2016.2.28 レジストリ操作を削除
+ *            よつて壁紙の「竝べ方」の設定を削除
  */
-void EIViewer::toWallPaper(int mode)
+//void EIViewer::toWallPaper(int mode)
+void EIViewer::toWallPaper()
 {
   if (!qrgb_ && !pvd_)
     return;
@@ -28,45 +31,13 @@ void EIViewer::toWallPaper(int mode)
   saveImage(NULL, wpPath_);
 
   urania::RegistryWriter regw(
-                           urania::REGKEY_CURRENT_USER,
-                           L"Control Panel\\desktop");
-
+    urania::REGKEY_CURRENT_USER, L"Control Panel\\desktop");
   if (regw)
   {
-    std::wstring ss1, ss2;
-    bool modechange;
-    switch (mode)
-    {
-    case 0:
-      ss1 = L"0";
-      ss2 = L"0";
-      modechange = true;
-      break;
-
-    case 1:
-      ss1 = L"1";
-      ss2 = L"1";
-      modechange = true;
-      break;
-
-    case 2:
-      ss1 = L"6";
-      ss2 = L"0";
-      modechange = true;
-      break;
-
-    default:
-      modechange = false;
-      break;
-    }
-
     regw.setStringData(L"WallPaper", wpPath_);
-    if (modechange) {
-      regw.setStringData(L"WallPaperStyle", ss1);
-      regw.setStringData(L"TileWallpaper", ss2);
-    }
+    regw.setStringData(L"WallPaperStyle", L"6");
+    regw.setStringData(L"TileWallpaper", L"0");
   }
-
 
   SystemParametersInfo(
     SPI_SETDESKWALLPAPER, 0,

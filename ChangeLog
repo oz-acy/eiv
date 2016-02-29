@@ -1,49 +1,54 @@
+29 Feb MMXVI oZ/acy <acy@hiemalis.org>
+  ver. 0.35 released
+  ãƒãƒ¼ãƒãƒ«ç‰ˆã¨PLUSç‰ˆã‚’ä¸€æœ¬åŒ–ã€‚
+  build by Clang++ 3.7.1 targeting x86_64-w64-windows-gnu
+
 25 Apr MMXI  oZ/acy <acy@hiemalis.org>
   ver. 0.33/0.33+ released
-  boost-1.46-1Alibpng-1.5.2Alibjpeg-v8c‚ğ“K—pB
-  build by GCC 4.6.0 targeted i686-mingw32
+  boost-1.46-1ã€libpng-1.5.2ã€libjpeg-v8cã‚’é©ç”¨ã€‚
+  build by GCC 4.6.0 targeting i686-mingw32
 
 2 Sep MMX  oZ/acy <acy@hiemalis.org>
   ver. 0.32/0.32+ released
-  boost-1.44Azlib-1.2.5Alibpng-1.4.3‚ğ“K—pB
-  build by GCC 4.5.1 targeted i686-mingw32
+  boost-1.44ã€zlib-1.2.5ã€libpng-1.4.3ã‚’é©ç”¨ã€‚
+  build by GCC 4.5.1 targeting i686-mingw32
 
 10 Dec MMIX  oZ/acy <acy@hiemalis.org>
   ver. 0.31/0.31+ released
-  libpng-1.2.41‚ğ“K—pB
+  libpng-1.2.41ã‚’é©ç”¨ã€‚
 
 15 Nov MMIX  oZ/acy <acy@hiemalis.org>
   ver. 0.30/0.30+ released
-  ƒtƒ@ƒCƒ‹–¼‚É“ú–{Œê‚ª¬‚´‚Â‚½ê‡‚ÌƒoƒO‚ğC³B
-  libpng-1.2.40‚ğ“K—pB
-  build by GCC 4.4.2 targeted i686-mingw32
+  ãƒ•ã‚¡ã‚¤ãƒ«åã«æ—¥æœ¬èªãŒæ··ã–ã¤ãŸå ´åˆã®ãƒã‚°ã‚’ä¿®æ­£ã€‚
+  libpng-1.2.40ã‚’é©ç”¨ã€‚
+  build by GCC 4.4.2 targeting i686-mingw32
 
 16 Apr MMIX  oZ/acy <acy@hiemalis.org>
   ver. 0.29/0.29+ released
-  ‹@”\–Ê‚ÌÌ‰»‚Í‚È‚µB
-  UNICODE”ÅWin32API‚ÅƒŠƒrƒ‹ƒhB
-  libpng-1.2.35‚ğ“K—pB
+  æ©Ÿèƒ½é¢ã®è®ŠåŒ–ã¯ãªã—ã€‚
+  UNICODEç‰ˆWin32APIã§ãƒªãƒ“ãƒ«ãƒ‰ã€‚
+  libpng-1.2.35ã‚’é©ç”¨ã€‚
 
 24 Apr MMVIII  oZ/acy <acy@hiemalis.org>
   ver. 0.28/0.28+ released
 
 27 Feb MMVIII  oZ/acy <acy@hiemalis.org>
   ver. 0.27/0.27+ released
-  ’Êí”Å‚©‚ç•Ç†İ’è‹@”\‚ğíœB
-  “à•”“I‚É‚ÍAlibpng1.2.25‚ğ“K—pB
+  é€šå¸¸ç‰ˆã‹ã‚‰å£ç´™è¨­å®šæ©Ÿèƒ½ã‚’å‰Šé™¤ã€‚
+  å†…éƒ¨çš„ã«ã¯ã€libpng1.2.25ã‚’é©ç”¨ã€‚
 
 7 Feb MMVIII  oZ/acy <acy@hiemalis.org>
   ver. 0.26c/0.26c+ released
-  á`‘œ‚É›”‚·‚éÌX‹@”\‚ğœ‚¢‚½ƒm[ƒ}ƒ‹”Å‚ÆAŸk‚µ‚½PLUS”Å‚É•ªŠòB
+  ç•«åƒã«å°ã™ã‚‹è®Šæ›´æ©Ÿèƒ½ã‚’é™¤ã„ãŸãƒãƒ¼ãƒãƒ«ç‰ˆã¨ã€æ®˜ã—ãŸPLUSç‰ˆã«åˆ†å²ã€‚
 
 2 Oct MMVII  oZ/acy <acy@hiemalis.org>
   ver. 0.26b+0.1 released.
-  ƒOƒŒƒCƒXƒP[ƒ‹‰»‹@”\’Ç‰ÁB
-  æ‚èŠ¸‚Ö‚¸‚Ì‘[’u‚Æ‚µ‚Ä PLUS”Å ‚Æ‚µ‚Ä•ªŠòB
+  ã‚°ãƒ¬ã‚¤ã‚¹ã‚±ãƒ¼ãƒ«åŒ–æ©Ÿèƒ½è¿½åŠ ã€‚
+  å–ã‚Šæ•¢ã¸ãšã®æªç½®ã¨ã—ã¦ PLUSç‰ˆ ã¨ã—ã¦åˆ†å²ã€‚
 
 18 Jun MMVI  oZ/acy <acy@hiemalis.org>
   ver. 0.26b released.
-  libpng 1.2.10‚ğ“K—pB
+  libpng 1.2.10ã‚’é©ç”¨ã€‚
 
 6 Apl MMVI  oZ/acy <acy@hiemalis.org>
   ver. 0.26 released.
@@ -51,50 +56,50 @@
 
 2 Aug MMV  oZ/acy <acy@hiemalis.org>
   ver. 0.25e released.
-  zlib 1.2.3‚ğ“K—pB
+  zlib 1.2.3ã‚’é©ç”¨ã€‚
 
 18 Dec MMIV  oZ/acy <acy@hiemalis.org>
   ver. 0.25d released.
-  libpng 1.2.8‚ğ“K—pB
+  libpng 1.2.8ã‚’é©ç”¨ã€‚
 
 15 Dec MMIV  oZ/acy <acy@hiemalis.org>
   ver. 0.25c released.
-  libpng 1.2.7‚ğ“K—pB
+  libpng 1.2.7ã‚’é©ç”¨ã€‚
 
 5 Aug MMIV  oZ/acy <acy@hiemalis.org>
   ver. 0.25b released.
-  libpng ‚ÌƒZƒLƒ…ƒŠƒeƒB[ƒz[ƒ‹á¢æS‚É”º‚ĞAlibpng 1.2.6rc1 ‚ğ“K—pB
+  libpng ã®ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ãƒ¼ãƒ›ãƒ¼ãƒ«ç™¼è¦ºã«ä¼´ã²ã€libpng 1.2.6rc1 ã‚’é©ç”¨ã€‚
 
 9 Jun MMIV  oZ/acy <acy@hiemalis.org>
   ver. 0.25 released.
-  VC++ Toolkit 2003 ‚Å buildB
-  256FƒCƒ[ƒW‚ğPNG‚Å•Û‘¶‚·‚éÛ‚ÉA¶ãŠp‚ÌƒsƒNƒZƒ‹‚ÌF‚ğ“§–¾‰»‚·‚é‹@”\‚ğ’Ç‰ÁB
+  VC++ Toolkit 2003 ã§ buildã€‚
+  256è‰²ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’PNGã§ä¿å­˜ã™ã‚‹éš›ã«ã€å·¦ä¸Šè§’ã®ãƒ”ã‚¯ã‚»ãƒ«ã®è‰²ã‚’é€æ˜åŒ–ã™ã‚‹æ©Ÿèƒ½ã‚’è¿½åŠ ã€‚
 
 20 Sep MMIII  oZ/acy <acy@hiemalis.org>
   ver. 0.24 released.
-  •Ç†—pˆêƒtƒ@ƒCƒ‹‚ğ’u‚­ƒfƒBƒŒƒNƒgƒŠ‚ğA
-  ŠÂ‹«ÌÉ TMP ‚Ü‚½‚Í TEMP ‚Åw’è‚³‚ê‚éƒfƒBƒŒƒNƒgƒŠ‚ÉÌXB
+  å£ç´™ç”¨ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç½®ããƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ã€
+  ç’°å¢ƒè®Šæ•¸ TMP ã¾ãŸã¯ TEMP ã§æŒ‡å®šã•ã‚Œã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«è®Šæ›´ã€‚
 
 22 Jul MMIII  oZ/acy <acy@hiemalis.org>
   ver. 0.23b released.
-  Œ¸Fƒ‹[ƒ`ƒ“‚É›”‚·‚éƒGƒ“ƒoƒO‚ğC³B
+  æ¸›è‰²ãƒ«ãƒ¼ãƒãƒ³ã«å°ã™ã‚‹ã‚¨ãƒ³ãƒã‚°ã‚’ä¿®æ­£ã€‚
 
 21 Jul MMIII  oZ/acy <acy@hiemalis.org>
   ver. 0.23 released.
-  ƒ}ƒEƒXƒJ[ƒ\ƒ‹‚ª‰»‚¯‚é‚±‚Æ‚ª‚ ‚éƒoƒO‚ğC³B
+  ãƒã‚¦ã‚¹ã‚«ãƒ¼ã‚½ãƒ«ãŒåŒ–ã‘ã‚‹ã“ã¨ãŒã‚ã‚‹ãƒã‚°ã‚’ä¿®æ­£ã€‚
 
 10 Mar MMIII  oZ/acy <acy@hiemalis.org>
   ver. 0.22 released.
-  •Ç†İ’è•û–@‚Éu°‘åv‚ğ’Ç‰ÁB
+  å£ç´™è¨­å®šæ–¹æ³•ã«ã€Œæ“´å¤§ã€ã‚’è¿½åŠ ã€‚
 
 5 Aug MMII  oZ/acy <acy@hiemalis.org>
   ver. 0.21 released.
-  ƒCƒ“ƒ^[ƒŒƒXPNG•Û‘¶‚É›”œäB
+  ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ¬ã‚¹PNGä¿å­˜ã«å°æ‡‰ã€‚
 
 21 Jun MMI  oZ/acy <acy@hiemalis.org>
   ver. 0.20 released.
-  PPM binary ‚É›”œäB
+  PPM binary ã«å°æ‡‰ã€‚
 
 21 Jan MMI  oZ/acy <acy@hiemalis.org>
   ver. 0.17 released.
-  Œ¸FƒAƒ‹ƒSƒŠƒYƒ€‚ğ·‚µ‘Ö‚ÖB
+  æ¸›è‰²ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã‚’å·®ã—æ›¿ã¸ã€‚

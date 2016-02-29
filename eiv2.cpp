@@ -2,14 +2,16 @@
  *
  *  eiv2.cpp
  *  by oZ/acy
- *  (c) 2002-2014 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2016 oZ/acy.  ALL RIGHTS RESERVED.
  *
- *  Easy Image Viewer PLUS
+ *  Easy Image Viewer (PLUS)
  *
- *  last update: 25 Jan MMXIV
+ *  óöó
+ *    2016.2.29  èCê≥ v0.35
  ************************************************************************/
-#include "eiv.h"
+
 #include <polymnia/pictcvt.h>
+#include "eiv.h"
 
 
 /*================================================
@@ -103,29 +105,36 @@ void EIViewer::toGrayScale(urania::Window* qw)
 
 
 /*================================================
+ *  EIViewer::onMenuWallpaper()
+ */
+void EIViewer::onMenuWallpaper(urania::Window* win)
+{
+  EIViewer::get()->toWallPaper();
+}
+
+/*================================================
  *  EIViewer::onMenuWallCenter()
  */
-void EIViewer::onMenuWallCenter(urania::Window* win)
-{
-  EIViewer::get()->toWallPaper(0);
-}
+//void EIViewer::onMenuWallCenter(urania::Window* win)
+//{
+//  EIViewer::get()->toWallPaper(0);
+//}
 
 /*================================================
  *  EIViewer::onMenuWallTile()
  */
-void EIViewer::onMenuWallTile(urania::Window* win)
-{
-  EIViewer::get()->toWallPaper(1);
-}
+//void EIViewer::onMenuWallTile(urania::Window* win)
+//{
+//  EIViewer::get()->toWallPaper(1);
+//}
 
 /*================================================
  *  EIViewer::onMenuWallExt()
  */
-void EIViewer::onMenuWallExt(urania::Window* win)
-{
-  EIViewer::get()->toWallPaper(2);
-}
-
+//void EIViewer::onMenuWallExt(urania::Window* win)
+//{
+//  EIViewer::get()->toWallPaper(2);
+//}
 
 
 //eof

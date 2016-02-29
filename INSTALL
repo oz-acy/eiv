@@ -1,9 +1,12 @@
 "INSTALL" of EIV
 
-make ���ƽ��Ծ夬�Ĥ� eiv.exe ��Ŭ�Ĥʥǥ��쥯�ȥ���֤��ƻ��Ѥ��줿����
-���󥤥󥹥ȡ���� eiv.exe ��������Ф褤��
+cmake, make して出來上がつた eiv.exe を適當なディレクトリに置いて使用されたい。
+make install も可能。當然、デフォルトでは /usr/local/bin にインストールされる。
 
+ビルドするには、以下が必要。
+ - libthemis, libpolymnia, liburania
+ - libpolymnia のために、zlib, libpng, libjpeg
+ - libthemis のために、libiconv
+   (EIVでは利用してゐないが、libthemisをビルドするには必要)
 
-Makefile �Ϻ�ԤδĶ��Ѥ˽��Ծ夬�ĤƤ��Τǡ�
-CC��CXX��WRES��libdir��CXXFLAGS��LDFLAGS ��
-Ŭ���ι�����ɬ�פ����뤫�Ȼפա�
+アンインストールは eiv.exe を削除するだけ。

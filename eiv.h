@@ -3,11 +3,12 @@
  *  eiv.h
  *
  *  by oZ/acy
- *  (c) 2002-2014 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2016 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
- *  last update: 25 Jan MMXIV
+ *  螻･豁ｴ
+ *    2016.2.29  菫ｮ豁｣ (v 0.35)
  *
  */
 #ifndef INC_EIV_HEADER_
@@ -20,20 +21,17 @@
 #include "eiv_res.h"
 
 
-#ifdef EIV_PLUS
-#define EIVNAME L"Easy Image Viewer PLUS"
-#define VERSTR  L"Ver. 0.34+"
-#else
-#define EIVNAME L"Easy Image Viewer"
-#define VERSTR  L"Ver. 0.34"
-#endif
+constexpr wchar_t EIVNAME[] = L"Easy Image Viewer PLUS";
+constexpr wchar_t VERSTR[] = L"Ver. 0.35";
+constexpr wchar_t COPYRIGHTSTR[]
+ = L"Copyright ﾂｩ 2000-2016 oZ/acy. All Right Reserved.";
 
-#define COPYRIGHTSTR L"Copyright (C) 2000-2012 oZ/acy. All Right Reserved."
+
 
 
 /*------------------------------------------------
  *  class EIViewer
- *  EIVアプリケーションクラス
+ *  EIV繧｢繝励Μ繧ｱ繝ｼ繧ｷ繝ｧ繝ｳ繧ｯ繝ｩ繧ｹ
  */
 class EIViewer
 {
@@ -71,9 +69,10 @@ public:
   static void onMenuAbout(urania::Window* win);
   static void onMenuCnvTo256(urania::Window* win);
   static void onMenuCnvGS(urania::Window* win);
-  static void onMenuWallCenter(urania::Window* win);
-  static void onMenuWallTile(urania::Window* win);
-  static void onMenuWallExt(urania::Window* win);
+  static void onMenuWallpaper(urania::Window* win);
+  //static void onMenuWallCenter(urania::Window* win);
+  //static void onMenuWallTile(urania::Window* win);
+  //static void onMenuWallExt(urania::Window* win);
 
   void setX(urania::Window* pw, int x);
   void setY(urania::Window* pw, int y);
@@ -87,13 +86,14 @@ public:
   void to256(urania::Window* pw);
   void toGrayScale(urania::Window* pw);
 
-  void toWallPaper(int mode);
+  void toWallPaper();
+  //void toWallPaper(int mode);
 };
 
 
 /*-----------------------------------------------------
  *  EIVWMHManager
- *  メインウィンドウ用のメッセージマネジャー
+ *  繝｡繧､繝ｳ繧ｦ繧｣繝ｳ繝峨え逕ｨ縺ｮ繝｡繝�繧ｻ繝ｼ繧ｸ繝槭ロ繧ｸ繝｣繝ｼ
  */
 class EIVWMHandler : public urania::WMHandler
 {
@@ -107,12 +107,10 @@ public:
 
   void onDropFiles(
     urania::Window* win, std::vector<std::wstring>& fa, int x, int y);
-
-
 };
 
 
-/* 雜多な函數  */
+/* 髮懷､壹↑蜃ｽ謨ｸ  */
 std::wstring getFileExt(const std::wstring& file);
 std::wstring getFileTitle(const std::wstring& path);
 

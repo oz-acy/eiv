@@ -2,12 +2,13 @@
  *
  *  savepct.cpp
  *
- *  (c) 2002-2010 oZ/acy.  All Rights Reserved.
+ *  (c) 2002-2016 oZ/acy.  All Rights Reserved.
  *
  *  Easy Image Viewer
  *  ƒtƒ@ƒCƒ‹•Û‘¶è—ü
  *
- *  last update: 3 Sep MMX
+ *  —š—ð
+ *    2016.2.29  C³ v0.35
  *************************************************************************/
 
 
@@ -28,7 +29,7 @@ void EIViewer::onMenuSave(urania::Window* win)
   EIViewer* const eiv = EIViewer::get();
   if (eiv->saveFileDlg()->doModal(win))
   {
-    std::wstring fn = eiv->saveFileDlg()->getPath();
+    std::wstring fn = eiv->saveFileDlg()->getFilePath();
     eiv->saveImage(win, fn);
   }
 }
@@ -99,7 +100,7 @@ savePng__(
   urania::Window* win, polymnia::Picture* pct, polymnia::PictureIndexed* pidx,
   const std::wstring& file)
 {
-  std::string path = urania::System::cnvWStr2MBStr(file);
+  std::string path = urania::System::strcpyWideToMultiByte(file);
   if (pidx)
   {
     int res = 
@@ -161,7 +162,7 @@ void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
     return;
 
   std::wstring ext = getFileExt(file);
-  std::string path = System::cnvWStr2MBStr(file);
+  std::string path = System::strcpyWideToMultiByte(file);
 
   if (ext==L"png")
     savePng__(win, pict.get(), ppc.get(), file);
