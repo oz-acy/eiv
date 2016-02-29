@@ -44,8 +44,9 @@ private:
   std::unique_ptr<urania::PaintMemDeviceIndexed> pvd_;
   int vx_, vy_;
   bool scrX_, scrY_;
-  std::unique_ptr<urania::OpenFileDialog> opn_;
-  std::unique_ptr<urania::SaveFileDialog> svd_;
+  std::unique_ptr<urania::FileDialog> fdlg_;
+  //std::unique_ptr<urania::OpenFileDialog> opn_;
+  //std::unique_ptr<urania::SaveFileDialog> svd_;
 
 private:
   EIViewer();
@@ -55,8 +56,9 @@ public:
 
   static EIViewer* get();
 
-  urania::OpenFileDialog* openFileDlg() { return opn_.get(); }
-  urania::SaveFileDialog* saveFileDlg() { return svd_.get(); }
+  urania::FileDialog* fileDialog() { return fdlg_.get(); }
+  //urania::OpenFileDialog* openFileDlg() { return opn_.get(); }
+  //urania::SaveFileDialog* saveFileDlg() { return svd_.get(); }
 
   urania::PaintMemDevice* getPaintDevice() { return qrgb_.get(); }
   urania::PaintMemDeviceIndexed* getPaintDeviceIndexed() { return pvd_.get(); }
@@ -70,9 +72,6 @@ public:
   static void onMenuCnvTo256(urania::Window* win);
   static void onMenuCnvGS(urania::Window* win);
   static void onMenuWallpaper(urania::Window* win);
-  //static void onMenuWallCenter(urania::Window* win);
-  //static void onMenuWallTile(urania::Window* win);
-  //static void onMenuWallExt(urania::Window* win);
 
   void setX(urania::Window* pw, int x);
   void setY(urania::Window* pw, int y);
@@ -87,7 +86,6 @@ public:
   void toGrayScale(urania::Window* pw);
 
   void toWallPaper();
-  //void toWallPaper(int mode);
 };
 
 

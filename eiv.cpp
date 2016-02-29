@@ -24,8 +24,6 @@
 std::unique_ptr<EIViewer> EIViewer::eiv_S;
 
 
-
-
 /*=====================================================
  *  EIViewer::get()
  *  インスタンスの取得
@@ -39,27 +37,21 @@ EIViewer* EIViewer::get()
 }
 
 
-
-
 /*======================================
  *  EIViewer::EIViewer()
- *  update: 13 May 2012
+ *  履歴
+ *    2016.2.29  修正
  */
-EIViewer::EIViewer() : vx_(0), vy_(0), scrX_(false), scrY_(false)
+EIViewer::EIViewer()
+: fdlg_(urania::FileDialog::create(
+          L"ImageFile (*.bmp;*.png;*.jpg;*.jpeg)|*.bmp;*.png;*.jpg;*.jpeg|"
+          L"All Files (*.*)|*.*|")),
+  vx_(0), vy_(0), scrX_(false), scrY_(false)
 {
   using namespace urania;
 
-  // ファイルダイアログ
-  opn_.reset(
-    OpenFileDialog::create(
-      L"ImageFile(.bmp .png .jpg)|*.bmp;*.png;*.jpg;*.jpeg|"));
-
-  svd_.reset(
-    SaveFileDialog::create(
-      L"ImageFile(.bmp .png .jpg)|*.bmp;*.png;*.jpg;*.jpeg|", L"bmp"));
-
   // 壁紙用パス設定
-  wchar_t tmpd[MAX_PATH + 1];
+  wchar_t tmpd[MAX_PATH];
   GetTempPath(MAX_PATH, tmpd);
   wpPath_ = std::wstring(tmpd) + L"gpeiv_wall.bmp";
   // タイトル文字列
@@ -133,9 +125,6 @@ void EIViewer::handleMenu(urania::Window* pw)
     menu->enableItem(EIV_MENU_CNV_TO256);
     menu->enableItem(EIV_MENU_CNV_GS);
     menu->enableItem(EIV_MENU_WALLPAPER);
-    //menu->enableItem(EIV_MENU_WALL_CENTER);
-    //menu->enableItem(EIV_MENU_WALL_TILE);
-    //menu->enableItem(EIV_MENU_WALL_EXT);
   }
   else if (pvd_)
   {
@@ -143,9 +132,6 @@ void EIViewer::handleMenu(urania::Window* pw)
     menu->grayItem(EIV_MENU_CNV_TO256);
     menu->grayItem(EIV_MENU_CNV_GS);
     menu->enableItem(EIV_MENU_WALLPAPER);
-    //menu->enableItem(EIV_MENU_WALL_CENTER);
-    //menu->enableItem(EIV_MENU_WALL_TILE);
-    //menu->enableItem(EIV_MENU_WALL_EXT);
   }
   else
   {
@@ -153,9 +139,6 @@ void EIViewer::handleMenu(urania::Window* pw)
     menu->grayItem(EIV_MENU_CNV_TO256);
     menu->grayItem(EIV_MENU_CNV_GS);
     menu->grayItem(EIV_MENU_WALLPAPER);
-    //menu->grayItem(EIV_MENU_WALL_CENTER);
-    //menu->grayItem(EIV_MENU_WALL_TILE);
-    //menu->grayItem(EIV_MENU_WALL_EXT);
   }
 }
 
@@ -286,9 +269,9 @@ void EIViewer::onMenuOpen(urania::Window* win)
 {
   using namespace urania;
   EIViewer* const eiv = EIViewer::get();
-  if (eiv->openFileDlg()->doModal(win))
+  if (eiv->fileDialog()->doModalOpenFile(win))
   {
-    std::wstring fn = eiv->openFileDlg()->getFilePath();
+    std::wstring fn = eiv->fileDialog()->getFilePath();
     eiv->loadImage(win, fn);
   }
 }

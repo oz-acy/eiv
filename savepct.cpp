@@ -5,19 +5,19 @@
  *  (c) 2002-2016 oZ/acy.  All Rights Reserved.
  *
  *  Easy Image Viewer
- *  ƒtƒ@ƒCƒ‹•Û‘¶è—ü
+ *  ãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜é—œè¯
  *
- *  —š—ğ
- *    2016.2.29  C³ v0.35
+ *  å±¥æ­´
+ *    2016.2.29  ä¿®æ­£ v0.35
  *************************************************************************/
 
 
-#include "eiv.h"
-#include <boost/scoped_ptr.hpp>
+#include <memory>
 #include <polymnia/dibio.h>
 #include <polymnia/pngio.h>
 #include <polymnia/jpegio.h>
 #include <themis/except.h>
+#include "eiv.h"
 
 
 /*================================================
@@ -27,9 +27,9 @@ void EIViewer::onMenuSave(urania::Window* win)
 {
   using namespace urania;
   EIViewer* const eiv = EIViewer::get();
-  if (eiv->saveFileDlg()->doModal(win))
+  if (eiv->fileDialog()->doModalSaveFile(win))
   {
-    std::wstring fn = eiv->saveFileDlg()->getFilePath();
+    std::wstring fn = eiv->fileDialog()->getFilePath();
     eiv->saveImage(win, fn);
   }
 }
@@ -145,15 +145,15 @@ savePng__(
 
 /*========================================================
  *  EIViewer::saveImage()
- *  •\¦‚µ‚Ä‚¢‚éá`‘œ‚ğ°’£q‚Éœä‚¶‚½Œ`®‚Å•Û‘¶‚·‚é
+ *  è¡¨ç¤ºã—ã¦ã„ã‚‹ç•«åƒã‚’æ“´å¼µå­ã«æ‡‰ã˜ãŸå½¢å¼ã§ä¿å­˜ã™ã‚‹
  */
 void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
 {
   using namespace polymnia;
   using namespace urania;
 
-  boost::scoped_ptr<Picture> pict;
-  boost::scoped_ptr<PictureIndexed> ppc;
+  std::unique_ptr<Picture> pict;
+  std::unique_ptr<PictureIndexed> ppc;
   if (pvd_)
     ppc.reset(pvd_->createPicture());
   else if (qrgb_)
