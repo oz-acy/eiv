@@ -5,7 +5,7 @@ SET(CMAKE_VERBOSE_MAKEFILE 1)
 
 #PROJECT(EIV CXX)
 
-#SET(CMAKE_CXX_COMPILER /usr/bin/x86_64-w64-mingw32-clang++)
+SET(CMAKE_CXX_COMPILER /usr/bin/x86_64-w64-mingw32-clang++)
 SET(CMAKE_CXX_FLAGS "-Wall -std=c++14 -O3 -DWINVER=0x500 -D_UNICODE -DUNICODE")
 #SET(CMAKE_LD_FLAGS "-mwindows -static")
 
@@ -31,8 +31,5 @@ SET_TARGET_PROPERTIES(eiv PROPERTIES LINK_FLAGS "-mwindows -static -municode")
 
 TARGET_LINK_LIBRARIES(eiv urania polymnia themis jpeg png z)
 INSTALL(TARGETS eiv DESTINATION bin)
-
-
-
 
 #eof
