@@ -25,12 +25,13 @@ ADD_EXECUTABLE(eiv
   eivwmh.cpp
   savepct.cpp
   towallpaper.cpp
-  util.cpp
+#  util.cpp
 )
 
 SET_TARGET_PROPERTIES(eiv PROPERTIES LINK_FLAGS "-mwindows -static -municode")
 
-TARGET_LINK_LIBRARIES(eiv urania polymnia themis jpeg png z)
+TARGET_LINK_LIBRARIES(eiv
+  urania polymnia themis jpeg png z boost_filesystem boost_system)
 INSTALL(TARGETS eiv DESTINATION bin)
 
 

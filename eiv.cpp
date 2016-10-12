@@ -8,8 +8,10 @@
  *
  *  履歴
  *    2016.2.29  修正 v0.35
- *************************************************************************/
-
+ *    2016.10.12 修正 v0.36 openImage()、nextImage()、prevImage()追加
+ */
+#include <algorithm>
+#include <boost/filesystem.hpp>
 #include <polymnia/dibio.h>
 #include <polymnia/pngio.h>
 #include <polymnia/jpegio.h>
@@ -24,9 +26,9 @@
 std::unique_ptr<EIViewer> EIViewer::eiv_S;
 
 
-/*=====================================================
- *  EIViewer::get()
- *  インスタンスの取得
+/**
+ *  Singletonパターンによる唯一のインスタンスを取得する。
+ *  @brief 唯一のインスタンスの取得
  */
 EIViewer* EIViewer::get()
 {
@@ -37,10 +39,8 @@ EIViewer* EIViewer::get()
 }
 
 
-/*======================================
- *  EIViewer::EIViewer()
- *  履歴
- *    2016.2.29  修正
+/**
+ *  @date 2016.2.29  修正
  */
 EIViewer::EIViewer()
 : fdlg_(urania::FileDialog::create(
@@ -112,9 +112,8 @@ void EIViewer::sizeHandleAndMore(urania::Window* pw_TG)
 }
 
 
-/*=================================
- *  EIViewer::handleMenu()
- *  メニューの操作
+/**
+ *  @brief メニューの操作
  */
 void EIViewer::handleMenu(urania::Window* pw)
 {
@@ -143,24 +142,113 @@ void EIViewer::handleMenu(urania::Window* pw)
 }
 
 
+/**
+ * 畫像ファイルを「開く」
+ */
+void EIViewer::openImage(urania::Window* pw, const std::wstring& path)
+{
+  namespace fs = boost::filesystem;
 
-/*====================================================
- *  EIViewer::loadImage()
- *  画像ファイルを拡張子に応じてロードする
+  fs::path pp(path);
+  fname_ = pp.filename().string();
+  dir_ = pp.parent_path().string();
+
+  loadImage(pw, path);
+}
+
+
+/**
+ * 「次」の畫像を讀み込む
+ */
+void EIViewer::nextImage(urania::Window* pw)
+{
+  namespace fs = boost::filesystem;
+
+  if (dir_.empty() || fname_.empty())
+    return;
+
+  std::vector<std::string> vf;
+
+  fs::path tdir(dir_);
+  fs::directory_iterator end;
+  for (fs::directory_iterator it(tdir); it != end; ++it) {
+    std::string ext = it->path().extension().string();
+    if (ext == ".bmp" || ext == ".png" || ext == ".jpg" || ext == ".jpeg") {
+      vf.push_back(it->path().filename().string());
+    }
+  }
+
+  auto jt = std::find(vf.begin(), vf.end(), fname_);
+  if (jt == vf.end()) {
+    jt = vf.begin();
+  } else {
+    ++jt;
+    if (jt == vf.end()) {
+      jt = vf.begin();
+    }
+  }
+
+  if (jt != vf.end()) {
+    fname_ = *jt;
+    loadImage(pw, (tdir / fs::path(*jt)).wstring());
+  }
+}
+
+
+/**
+ * 「前」の畫像を讀み込む
+ */
+void EIViewer::prevImage(urania::Window* pw)
+{
+  namespace fs = boost::filesystem;
+
+  if (dir_.empty() || fname_.empty())
+    return;
+
+  std::vector<std::string> vf;
+
+  fs::path tdir(dir_);
+  fs::directory_iterator end;
+  for (fs::directory_iterator it(tdir); it != end; ++it) {
+    std::string ext = it->path().extension().string();
+    if (ext == ".bmp" || ext == ".png" || ext == ".jpg" || ext == ".jpeg") {
+      vf.push_back(it->path().filename().string());
+    }
+  }
+
+  auto jt = std::find(vf.rbegin(), vf.rend(), fname_);
+  if (jt == vf.rend()) {
+    jt = vf.rbegin();
+  } else {
+    ++jt;
+    if (jt == vf.rend()) {
+      jt = vf.rbegin();
+    }
+  }
+
+  if (jt != vf.rend()) {
+    fname_ = *jt;
+    loadImage(pw, (tdir / fs::path(*jt)).wstring());
+  }
+}
+
+
+/**
+ *  畫像ファイルを擴張子に應じて實際に讀み込む
  */
 void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
 {
   using namespace polymnia;
   using namespace urania;
+  namespace fs = boost::filesystem;
 
+  std::string ext = fs::path(file).extension().string();
+  std::string path = fs::path(file).string();
   std::unique_ptr<PictureIndexed> ppc;
   std::unique_ptr<Picture> pict;
-  std::wstring ext = getFileExt(file);
-
-  std::string path = System::strcpyWideToMultiByte(file);
 
   // 擴張子に應じてロード
-  if (ext==L"bmp")
+  if (ext == ".bmp")
   {
     IndexedDibLoader bpload;
     ppc.reset(bpload.load(path));
@@ -170,7 +258,7 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
       pict.reset(bload.load(path));
     }
   }
-  else if (ext==L"png")
+  else if (ext == ".png")
   {
     IndexedPngLoader ppload;
     ppc.reset(ppload.load(path));
@@ -180,7 +268,7 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
       pict.reset(pload.load(path));
     }
   }
-  else if(ext==L"jpg" || ext==L"jpeg")
+  else if(ext == ".jpg" || ext == ".jpeg")
   {
     JpegLoader jload;
     pict.reset(jload.load(path));
@@ -210,7 +298,7 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
   }
   else {
     std::wstring s = L"Fault reading image file ";
-    s += getFileTitle(file);
+    s += file;
     System::notify(L"Error", s + L".");
     return;
   }
@@ -223,10 +311,11 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
   ppd->clear(RgbColor(255, 255, 255));
   ppd.reset();
 
-  vx_ = vy_ = 0;
+  vx_ = 0;
+  vy_ = 0;
   pw->resizeScreen(w, h);
 
-  std::wstring str = getFileTitle(file);
+  std::wstring str = fs::path(file).filename().wstring();
   str += itype;
   str += L"  - ";
   str += appTitle_;
@@ -237,10 +326,10 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
 }
 
 
-/*====================================================
- *  EIViewer::setX()
- *  横スクロールバーのメッセージハンドラ
- *  画像転送の左上座標の水平成分を設定
+/**
+ *  横スクロールバーのメッセージハンドラ。畫像轉送の左上X座標を設定する。
+ *  @param pw ウィンドウ
+ *  @param x 設定するX座標
  */
 void EIViewer::setX(urania::Window* pw, int x)
 {
@@ -249,10 +338,10 @@ void EIViewer::setX(urania::Window* pw, int x)
   pw->update();
 }
 
-/*=============================================================
- *  EIViewer::setY()
- *  縦スクロールバーのメッセージハンドラ
- *  画像転送の左上座標の垂直成分を設定
+/**
+ *  縦スクロールバーのメッセージハンドラ。畫像轉送の左上Y座標を設定する。
+ *  @param pw ウィンドウ
+ *  @param y 設定するY座標
  */
 void EIViewer::setY(urania::Window* pw, int y)
 {
@@ -272,7 +361,7 @@ void EIViewer::onMenuOpen(urania::Window* win)
   if (eiv->fileDialog()->doModalOpenFile(win))
   {
     std::wstring fn = eiv->fileDialog()->getFilePath();
-    eiv->loadImage(win, fn);
+    eiv->openImage(win, fn);
   }
 }
 

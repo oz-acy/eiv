@@ -9,6 +9,7 @@
  *
  *  履歴
  *    2016.2.29  修正 (v 0.35)
+ *    2016.10.12 修正 (v 0.36)
  *
  */
 #ifndef INC_EIV_HEADER_
@@ -21,8 +22,8 @@
 #include "eiv_res.h"
 
 
-constexpr wchar_t EIVNAME[] = L"Easy Image Viewer PLUS";
-constexpr wchar_t VERSTR[] = L"Ver. 0.35";
+constexpr wchar_t EIVNAME[] = L"Easy Image Viewer";
+constexpr wchar_t VERSTR[] = L"Ver. 0.36";
 constexpr wchar_t COPYRIGHTSTR[]
  = L"Copyright © 2000-2016 oZ/acy. All Right Reserved.";
 
@@ -40,13 +41,15 @@ private:
 
   std::wstring appTitle_;
   std::wstring wpPath_;
+
+  std::string fname_;
+  std::string dir_;
+
   std::unique_ptr<urania::PaintMemDevice> qrgb_;
   std::unique_ptr<urania::PaintMemDeviceIndexed> pvd_;
   int vx_, vy_;
   bool scrX_, scrY_;
   std::unique_ptr<urania::FileDialog> fdlg_;
-  //std::unique_ptr<urania::OpenFileDialog> opn_;
-  //std::unique_ptr<urania::SaveFileDialog> svd_;
 
 private:
   EIViewer();
@@ -57,8 +60,6 @@ public:
   static EIViewer* get();
 
   urania::FileDialog* fileDialog() { return fdlg_.get(); }
-  //urania::OpenFileDialog* openFileDlg() { return opn_.get(); }
-  //urania::SaveFileDialog* saveFileDlg() { return svd_.get(); }
 
   urania::PaintMemDevice* getPaintDevice() { return qrgb_.get(); }
   urania::PaintMemDeviceIndexed* getPaintDeviceIndexed() { return pvd_.get(); }
@@ -76,8 +77,11 @@ public:
   void setX(urania::Window* pw, int x);
   void setY(urania::Window* pw, int y);
 
-  void loadImage(urania::Window* pw, const std::wstring& file);
-  void saveImage(urania::Window* pw, const std::wstring& file);
+  void openImage(urania::Window* pw, const std::wstring& path);
+  void nextImage(urania::Window* pw);
+  void prevImage(urania::Window* pw);
+  void loadImage(urania::Window* pw, const std::wstring& path);
+  void saveImage(urania::Window* pw, const std::wstring& path);
 
   void sizeHandleAndMore(urania::Window* pw);
   void handleMenu(urania::Window* pw);
@@ -96,15 +100,22 @@ public:
 class EIVWMHandler : public urania::WMHandler
 {
 public:
-  bool onDestroy();
-  bool onSize(urania::Window* win, int typ, int w, int h);
-  bool onKeyDown(urania::Window* win, int code, int rep, bool prev);
-  void onPaint(urania::BasicWindow* win, urania::PaintDevice* pd);
-  void onScroll(urania::Window* win, int id, int pos);
-  void onMouseWheel(urania::Window* win, int delta, int key, int x, int y);
+  bool onDestroy() override;
+  bool onSize(urania::Window* win, int typ, int w, int h) override;
+  bool onKeyDown(urania::Window* win, int code, int rep, bool prev) override;
+  bool onLButtonDown(
+    urania::Window* win, int x, int y, bool ctrl, bool shft,
+    bool lb, bool mb, bool rb) override;
+  bool onRButtonDown(
+    urania::Window* win, int x, int y, bool ctrl, bool shft,
+    bool lb, bool mb, bool rb) override;
+  void onPaint(urania::BasicWindow* win, urania::PaintDevice* pd) override;
+  void onScroll(urania::Window* win, int id, int pos) override;
+  void onMouseWheel(
+    urania::Window* win, int delta, int key, int x, int y) override;
 
   void onDropFiles(
-    urania::Window* win, std::vector<std::wstring>& fa, int x, int y);
+    urania::Window* win, std::vector<std::wstring>& fa, int x, int y) override;
 };
 
 

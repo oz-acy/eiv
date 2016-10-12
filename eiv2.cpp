@@ -8,7 +8,7 @@
  *
  *  óöó
  *    2016.2.29  èCê≥ v0.35
- ************************************************************************/
+ */
 
 #include <polymnia/pictcvt.h>
 #include "eiv.h"
@@ -41,7 +41,7 @@ void EIViewer::to256(urania::Window* qw)
     return;
 
   std::unique_ptr<Dialog> wtdlg(
-    Dialog::doOwnedModeless(EIV_WAITDLG, qw, NULL, NULL, dProc));
+    Dialog::doOwnedModeless(EIV_WAITDLG, qw, nullptr, nullptr, dProc));
 
 
   std::unique_ptr<Picture> pict(qrgb_->createPicture());
@@ -111,30 +111,6 @@ void EIViewer::onMenuWallpaper(urania::Window* win)
 {
   EIViewer::get()->toWallPaper();
 }
-
-/*================================================
- *  EIViewer::onMenuWallCenter()
- */
-//void EIViewer::onMenuWallCenter(urania::Window* win)
-//{
-//  EIViewer::get()->toWallPaper(0);
-//}
-
-/*================================================
- *  EIViewer::onMenuWallTile()
- */
-//void EIViewer::onMenuWallTile(urania::Window* win)
-//{
-//  EIViewer::get()->toWallPaper(1);
-//}
-
-/*================================================
- *  EIViewer::onMenuWallExt()
- */
-//void EIViewer::onMenuWallExt(urania::Window* win)
-//{
-//  EIViewer::get()->toWallPaper(2);
-//}
 
 
 //eof

@@ -2,12 +2,12 @@
  *
  *  eivwmh.cpp
  *  by oZ/acy
- *  (c) 2002-2014 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2016 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *  class EIVWMHandler
  *
- *  last update: 25 Jan MMXIV
+ *  @date 2016.10.12 onLButtonDown()、onRButtonDown()を追加
  */
 #include "eiv.h"
 #include <polymnia/dibio.h>
@@ -15,8 +15,7 @@
 #include <polymnia/jpegio.h>
 
 
-/*================================================
- *  EIVWMHandler::onKeyDown()
+/**
  *  キー押下時のコールバック
  */
 bool
@@ -35,8 +34,7 @@ EIVWMHandler::onKeyDown(urania::Window* win, int code, int rep, bool prev)
 }
 
 
-/*================================================
- *  EIVWMHandler::onSize()
+/**
  *  サイズ變更時のコールバック
  */
 bool EIVWMHandler::onSize(urania::Window* win, int typ, int w, int h)
@@ -46,8 +44,7 @@ bool EIVWMHandler::onSize(urania::Window* win, int typ, int w, int h)
 }
 
 
-/*==============================================
- *  EIVWMHandler::onDestroy()
+/**
  *  アプリの終了處理
  */
 bool EIVWMHandler::onDestroy()
@@ -57,8 +54,7 @@ bool EIVWMHandler::onDestroy()
 }
 
 
-/*==============================================
- *  EIVWMHandler::onPaint()
+/**
  *  描畫處理
  */
 void
@@ -91,45 +87,23 @@ EIVWMHandler::onPaint(urania::BasicWindow* win, urania::PaintDevice* pdev)
 }
 
 
-/*==================================================
- *  EIVWMHandler::onDropFiles()
+/**
  *  ファイルドロップ時のメッセージハンドラ
  */
 void
 EIVWMHandler::onDropFiles(
   urania::Window* pw, std::vector<std::wstring>& fary, int x, int y)
 {
-  (void)x;
-  (void)y;
-
-  if (fary.size()==0)
+  if (fary.size() != 1) {
+    urania::System::notify(L"Error", L"You cannot drop multiple files.");
     return;
-
-  std::wstring ext;
-  std::vector<std::wstring>::iterator itr;
-
-  for (itr = fary.begin(); itr != fary.end(); itr++)
-  {
-    ext = getFileExt(*itr);
-    if (ext==L"bmp")
-      break;
-    if (ext==L"png")
-      break;
-    if (ext==L"jpg")
-      break;
-    if (ext==L"jpeg")
-      break;
   }
 
-  if (itr != fary.end())
-  {
-    EIViewer::get()->loadImage(pw, *itr);
-  }
+  EIViewer::get()->openImage(pw, fary.front());
 }
 
 
-/*==================================================
- *  EIVWMHandler::onScroll()
+/**
  *  スクロール時のメッセージハンドラ
  */
 void EIVWMHandler::onScroll(urania::Window* pw, int id, int pos)
@@ -141,8 +115,7 @@ void EIVWMHandler::onScroll(urania::Window* pw, int id, int pos)
 }
 
 
-/*=======================================================
- *  EIVWMHandler::onMouseWheel()
+/**
  *  マウスホイールを廻した時のメッセージハンドラ
  */
 void EIVWMHandler::onMouseWheel(
@@ -150,6 +123,30 @@ void EIVWMHandler::onMouseWheel(
 {
   pw->postMessage(WM_VSCROLL, (delta > 0) ? SB_PAGEUP : SB_PAGEDOWN, 0);
 }
+
+/**
+ *  左ボタンを押したときのメッセージハンドラ
+ */
+bool EIVWMHandler::onLButtonDown(
+  urania::Window* win, int x, int y, bool ctrl, bool shft,
+  bool lb, bool mb, bool rb)
+{
+  EIViewer::get()->nextImage(win);
+  return true;
+}
+
+/**
+ *  右ボタンを押したときのメッセージハンドラ
+ */
+bool EIVWMHandler::onRButtonDown(
+  urania::Window* win, int x, int y, bool ctrl, bool shft,
+  bool lb, bool mb, bool rb)
+{
+  EIViewer::get()->prevImage(win);
+  return true;
+}
+
+
 
 
 //eof

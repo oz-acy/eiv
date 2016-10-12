@@ -9,6 +9,7 @@
  *
  *  —š—ğ
  *    2016.2.29  C³ (v0.35)
+ *    2016.10.11 C³ (v0.35 again)
  */
 
 #include <themis/strconv.h>
@@ -16,8 +17,8 @@
 
 
 /*==================================================
-*  WinMain()
-*=================================================*/
+ *  WinMain()
+ */
 int WINAPI wWinMain(HINSTANCE hi, HINSTANCE, LPWSTR, int)
 {
   using namespace std;
@@ -34,7 +35,7 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE, LPWSTR, int)
     WindowFactory de;
 
     de.icon = EIV_ICON;
-    de.title = L"Easy Image Viewer";
+    de.title = EIVNAME;
     de.resizeable = true;
     de.h_scrollbar = true;
     de.v_scrollbar = true;
@@ -52,15 +53,12 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE, LPWSTR, int)
     hndlr->set(EIV_MENU_CNV_TO256, EIViewer::onMenuCnvTo256);
     hndlr->set(EIV_MENU_CNV_GS, EIViewer::onMenuCnvGS);
     hndlr->set(EIV_MENU_WALLPAPER, EIViewer::onMenuWallpaper);
-    //hndlr->set(EIV_MENU_WALL_CENTER, EIViewer::onMenuWallCenter);
-    //hndlr->set(EIV_MENU_WALL_TILE, EIViewer::onMenuWallTile);
-    //hndlr->set(EIV_MENU_WALL_EXT, EIViewer::onMenuWallExt);
 
     unique_ptr<Window> pw(de.create(hndlr.release(), EIV_MAIN_MENU));
 
     vector<wstring> args = System::getCmdLineArgsW();
     if (args.size() == 2)
-      eiv->loadImage(pw.get(), args[1]);
+      eiv->openImage(pw.get(), args[1]);
 
     eiv->handleMenu(pw.get());
     eiv->sizeHandleAndMore(pw.get());

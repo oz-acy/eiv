@@ -9,10 +9,10 @@
  *
  *  履歴
  *    2016.2.29  修正 v0.35
- *************************************************************************/
-
-
+ *    2016.10.12 修正 擴張子の取り出し方を變更
+ */
 #include <memory>
+#include <boost/filesystem.hpp>
 #include <polymnia/dibio.h>
 #include <polymnia/pngio.h>
 #include <polymnia/jpegio.h>
@@ -105,7 +105,7 @@ savePng__(
   {
     int res = 
       urania::Dialog::doOwnedModal(
-        EIV_PNGIDXDLG, win, NULL, NULL, pngDlgProc2__);
+        EIV_PNGIDXDLG, win, nullptr, nullptr, pngDlgProc2__);
 
     if (res < 0)
       return;
@@ -122,7 +122,8 @@ savePng__(
   else if (pct)
   {
     int res = 
-      urania::Dialog::doOwnedModal(EIV_PNGDLG, win, NULL, NULL, pngDlgProc__);
+      urania::Dialog::doOwnedModal(
+        EIV_PNGDLG, win, nullptr, nullptr, pngDlgProc__);
 
     if (res < 0)
       return;
@@ -151,6 +152,7 @@ void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
 {
   using namespace polymnia;
   using namespace urania;
+  namespace fs = boost::filesystem;
 
   std::unique_ptr<Picture> pict;
   std::unique_ptr<PictureIndexed> ppc;
@@ -161,12 +163,12 @@ void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
   else
     return;
 
-  std::wstring ext = getFileExt(file);
-  std::string path = System::strcpyWideToMultiByte(file);
+  std::string ext = fs::path(file).extension().string();
+  std::string path = fs::path(file).string();
 
-  if (ext==L"png")
+  if (ext == ".png")
     savePng__(win, pict.get(), ppc.get(), file);
-  else if (ext==L"jpg" || ext==L"jpeg")
+  else if (ext == ".jpg" || ext == ".jpeg")
   {
     if (ppc)
       pict.reset(ppc->duplicatePicture());
