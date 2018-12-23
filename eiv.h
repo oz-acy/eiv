@@ -3,13 +3,14 @@
  *  eiv.h
  *
  *  by oZ/acy
- *  (c) 2002-2016 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2018 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
  *  履歴
  *    2016.2.29  修正 (v 0.35)
  *    2016.10.12 修正 (v 0.36)
+ *    2018.12.23 修正 (v 0.37)
  *
  */
 #ifndef INC_EIV_HEADER_
@@ -18,14 +19,15 @@
 #include <urania/win.h>
 #include <urania/dialog.h>
 #include <urania/cmndlg.h>
+#include <filesystem>
 #include <memory>
 #include "eiv_res.h"
 
 
 constexpr wchar_t EIVNAME[] = L"Easy Image Viewer";
-constexpr wchar_t VERSTR[] = L"Ver. 0.36";
+constexpr wchar_t VERSTR[] = L"Ver. 0.37";
 constexpr wchar_t COPYRIGHTSTR[]
- = L"Copyright © 2000-2016 oZ/acy. All Right Reserved.";
+ = L"Copyright © 2000-2018 oZ/acy. All Right Reserved.";
 
 
 
@@ -42,8 +44,7 @@ private:
   std::wstring appTitle_;
   std::wstring wpPath_;
 
-  std::string fname_;
-  std::string dir_;
+  std::filesystem::path tgt_;
 
   std::unique_ptr<urania::PaintMemDevice> qrgb_;
   std::unique_ptr<urania::PaintMemDeviceIndexed> pvd_;
@@ -80,7 +81,7 @@ public:
   void openImage(urania::Window* pw, const std::wstring& path);
   void nextImage(urania::Window* pw);
   void prevImage(urania::Window* pw);
-  void loadImage(urania::Window* pw, const std::wstring& path);
+  void loadImage(urania::Window* pw);
   void saveImage(urania::Window* pw, const std::wstring& path);
 
   void sizeHandleAndMore(urania::Window* pw);

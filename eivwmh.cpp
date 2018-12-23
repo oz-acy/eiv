@@ -7,7 +7,7 @@
  *  Easy Image Viewer
  *  class EIVWMHandler
  *
- *  @date 2016.10.12 onLButtonDown()AonRButtonDown()‚ð’Ç‰Á
+ *  @date 2016.10.12 onLButtonDown()ã€onRButtonDown()ã‚’è¿½åŠ 
  */
 #include "eiv.h"
 #include <polymnia/dibio.h>
@@ -16,7 +16,7 @@
 
 
 /**
- *  ƒL[‰Ÿ‰ºŽž‚ÌƒR[ƒ‹ƒoƒbƒN
+ *  ã‚­ãƒ¼æŠ¼ä¸‹æ™‚ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
  */
 bool
 EIVWMHandler::onKeyDown(urania::Window* win, int code, int rep, bool prev)
@@ -35,7 +35,7 @@ EIVWMHandler::onKeyDown(urania::Window* win, int code, int rep, bool prev)
 
 
 /**
- *  ƒTƒCƒYÌXŽž‚ÌƒR[ƒ‹ƒoƒbƒN
+ *  ã‚µã‚¤ã‚ºè®Šæ›´æ™‚ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
  */
 bool EIVWMHandler::onSize(urania::Window* win, int typ, int w, int h)
 {
@@ -45,7 +45,7 @@ bool EIVWMHandler::onSize(urania::Window* win, int typ, int w, int h)
 
 
 /**
- *  ƒAƒvƒŠ‚ÌI—¹™|—
+ *  ã‚¢ãƒ—ãƒªã®çµ‚äº†è™•ç†
  */
 bool EIVWMHandler::onDestroy()
 {
@@ -55,7 +55,7 @@ bool EIVWMHandler::onDestroy()
 
 
 /**
- *  •`á`™|—
+ *  æç•«è™•ç†
  */
 void
 EIVWMHandler::onPaint(urania::BasicWindow* win, urania::PaintDevice* pdev)
@@ -88,7 +88,7 @@ EIVWMHandler::onPaint(urania::BasicWindow* win, urania::PaintDevice* pdev)
 
 
 /**
- *  ƒtƒ@ƒCƒ‹ƒhƒƒbƒvŽž‚ÌƒƒbƒZ[ƒWƒnƒ“ƒhƒ‰
+ *  ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‰ãƒ­ãƒƒãƒ—æ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
  */
 void
 EIVWMHandler::onDropFiles(
@@ -104,7 +104,7 @@ EIVWMHandler::onDropFiles(
 
 
 /**
- *  ƒXƒNƒ[ƒ‹Žž‚ÌƒƒbƒZ[ƒWƒnƒ“ƒhƒ‰
+ *  ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«æ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
  */
 void EIVWMHandler::onScroll(urania::Window* pw, int id, int pos)
 {
@@ -116,7 +116,7 @@ void EIVWMHandler::onScroll(urania::Window* pw, int id, int pos)
 
 
 /**
- *  ƒ}ƒEƒXƒzƒC[ƒ‹‚ð‰ô‚µ‚½Žž‚ÌƒƒbƒZ[ƒWƒnƒ“ƒhƒ‰
+ *  ãƒžã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«ã‚’å»»ã—ãŸæ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
  */
 void EIVWMHandler::onMouseWheel(
   urania::Window* pw, int delta, int key, int x, int y)
@@ -125,7 +125,7 @@ void EIVWMHandler::onMouseWheel(
 }
 
 /**
- *  ¶ƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½‚Æ‚«‚ÌƒƒbƒZ[ƒWƒnƒ“ƒhƒ‰
+ *  å·¦ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã¨ãã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
  */
 bool EIVWMHandler::onLButtonDown(
   urania::Window* win, int x, int y, bool ctrl, bool shft,
@@ -136,7 +136,7 @@ bool EIVWMHandler::onLButtonDown(
 }
 
 /**
- *  ‰Eƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½‚Æ‚«‚ÌƒƒbƒZ[ƒWƒnƒ“ƒhƒ‰
+ *  å³ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã¨ãã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
  */
 bool EIVWMHandler::onRButtonDown(
   urania::Window* win, int x, int y, bool ctrl, bool shft,

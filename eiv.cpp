@@ -2,16 +2,16 @@
  *
  *  eiv.cpp
  *  by oZ/acy
- *  (c) 2002-2016 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2018 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
  *  履歴
  *    2016.2.29  修正 v0.35
  *    2016.10.12 修正 v0.36 openImage()、nextImage()、prevImage()追加
+ *    2018.12.23 修正 C++17(<filesystem>)對應
  */
 #include <algorithm>
-#include <boost/filesystem.hpp>
 #include <polymnia/dibio.h>
 #include <polymnia/pngio.h>
 #include <polymnia/jpegio.h>
@@ -147,13 +147,17 @@ void EIViewer::handleMenu(urania::Window* pw)
  */
 void EIViewer::openImage(urania::Window* pw, const std::wstring& path)
 {
-  namespace fs = boost::filesystem;
+  namespace fs = std::filesystem;
 
-  fs::path pp(path);
-  fname_ = pp.filename().string();
-  dir_ = pp.parent_path().string();
+  tgt_ = path;
+  if (!fs::exists(tgt_)) {
+    std::wstring s = L"Image file ";
+    s += tgt_.native();
+    urania::System::notify(L"Error", s + L" does not exist.");
+    return;
+  }
 
-  loadImage(pw, path);
+  loadImage(pw);
 }
 
 
@@ -162,23 +166,32 @@ void EIViewer::openImage(urania::Window* pw, const std::wstring& path)
  */
 void EIViewer::nextImage(urania::Window* pw)
 {
-  namespace fs = boost::filesystem;
+  namespace fs = std::filesystem;
 
-  if (dir_.empty() || fname_.empty())
+  if (tgt_.native().empty())
     return;
+  if (!fs::exists(tgt_)) {
+    std::wstring s = L"Image file ";
+    s += tgt_.native();
+    urania::System::notify(L"Error", s + L" does not exist.");
+    return;
+  }
 
-  std::vector<std::string> vf;
+  std::vector<fs::path> vf;
+  for (
+    const fs::directory_entry& x :
+    fs::directory_iterator(tgt_.parent_path()) ) {
 
-  fs::path tdir(dir_);
-  fs::directory_iterator end;
-  for (fs::directory_iterator it(tdir); it != end; ++it) {
-    std::string ext = it->path().extension().string();
-    if (ext == ".bmp" || ext == ".png" || ext == ".jpg" || ext == ".jpeg") {
-      vf.push_back(it->path().filename().string());
+    fs::path ext = x.path().extension();
+    if (
+      ext == ".bmp" || ext == ".png" || ext == ".jpg" || ext == ".jpeg"
+      || ext == ".BMP" || ext == ".PNG" || ext == ".JPG" || ext == "JPEG") {
+
+      vf.push_back(x.path());
     }
   }
 
-  auto jt = std::find(vf.begin(), vf.end(), fname_);
+  auto jt = std::find(vf.begin(), vf.end(), tgt_);
   if (jt == vf.end()) {
     jt = vf.begin();
   } else {
@@ -189,8 +202,8 @@ void EIViewer::nextImage(urania::Window* pw)
   }
 
   if (jt != vf.end()) {
-    fname_ = *jt;
-    loadImage(pw, (tdir / fs::path(*jt)).wstring());
+    tgt_ = *jt;
+    loadImage(pw);
   }
 }
 
@@ -200,23 +213,32 @@ void EIViewer::nextImage(urania::Window* pw)
  */
 void EIViewer::prevImage(urania::Window* pw)
 {
-  namespace fs = boost::filesystem;
+  namespace fs = std::filesystem;
 
-  if (dir_.empty() || fname_.empty())
+  if (tgt_.native().empty())
     return;
+  else if (!fs::exists(tgt_)) {
+    std::wstring s = L"Image file ";
+    s += tgt_.native();
+    urania::System::notify(L"Error", s + L" does not exist.");
+    return;
+  }
 
-  std::vector<std::string> vf;
+  std::vector<fs::path> vf;
+  for (
+    const fs::directory_entry& x :
+    fs::directory_iterator(tgt_.parent_path()) ) {
 
-  fs::path tdir(dir_);
-  fs::directory_iterator end;
-  for (fs::directory_iterator it(tdir); it != end; ++it) {
-    std::string ext = it->path().extension().string();
-    if (ext == ".bmp" || ext == ".png" || ext == ".jpg" || ext == ".jpeg") {
-      vf.push_back(it->path().filename().string());
+    fs::path ext = x.path().extension();
+    if (
+      ext == ".bmp" || ext == ".png" || ext == ".jpg" || ext == ".jpeg"
+      || ext == ".BMP" || ext == ".PNG" || ext == ".JPG" || ext == "JPEG") {
+
+      vf.push_back(x.path());
     }
   }
 
-  auto jt = std::find(vf.rbegin(), vf.rend(), fname_);
+  auto jt = std::find(vf.rbegin(), vf.rend(), tgt_);
   if (jt == vf.rend()) {
     jt = vf.rbegin();
   } else {
@@ -227,51 +249,51 @@ void EIViewer::prevImage(urania::Window* pw)
   }
 
   if (jt != vf.rend()) {
-    fname_ = *jt;
-    loadImage(pw, (tdir / fs::path(*jt)).wstring());
+    tgt_ = *jt;
+    loadImage(pw);
   }
 }
 
 
 /**
  *  畫像ファイルを擴張子に應じて實際に讀み込む
+ *    ※讀み込み對象のpathは豫め tgt_ に格納される
  */
-void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
+void EIViewer::loadImage(urania::Window* pw)
 {
   using namespace polymnia;
   using namespace urania;
-  namespace fs = boost::filesystem;
+  namespace fs = std::filesystem;
 
-  std::string ext = fs::path(file).extension().string();
-  std::string path = fs::path(file).string();
+  fs::path ext = tgt_.extension();
   std::unique_ptr<PictureIndexed> ppc;
   std::unique_ptr<Picture> pict;
 
   // 擴張子に應じてロード
-  if (ext == ".bmp")
+  if (ext == ".bmp" || ext == ".BMP")
   {
     IndexedDibLoader bpload;
-    ppc.reset(bpload.load(path));
+    ppc.reset(bpload.load(tgt_));
     if (!ppc)
     {
       DibLoader bload;
-      pict.reset(bload.load(path));
+      pict.reset(bload.load(tgt_));
     }
   }
-  else if (ext == ".png")
+  else if (ext == ".png" || ext == ".PNG")
   {
     IndexedPngLoader ppload;
-    ppc.reset(ppload.load(path));
+    ppc.reset(ppload.load(tgt_));
     if (!ppc)
     {
       PngLoader pload;
-      pict.reset(pload.load(path));
+      pict.reset(pload.load(tgt_));
     }
   }
-  else if(ext == ".jpg" || ext == ".jpeg")
+  else if(ext == ".jpg" || ext == ".jpeg" || ext == ".JPG" || ext == ".JPEG")
   {
     JpegLoader jload;
-    pict.reset(jload.load(path));
+    pict.reset(jload.load(tgt_));
   }
 
 
@@ -298,7 +320,7 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
   }
   else {
     std::wstring s = L"Fault reading image file ";
-    s += file;
+    s += tgt_.wstring();
     System::notify(L"Error", s + L".");
     return;
   }
@@ -315,7 +337,8 @@ void EIViewer::loadImage(urania::Window* pw, const std::wstring& file)
   vy_ = 0;
   pw->resizeScreen(w, h);
 
-  std::wstring str = fs::path(file).filename().wstring();
+  //std::wstring str = fs::path(file).filename().wstring();
+  std::wstring str = tgt_.filename().wstring();
   str += itype;
   str += L"  - ";
   str += appTitle_;

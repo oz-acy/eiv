@@ -2,7 +2,7 @@
  *
  *  savepct.cpp
  *
- *  (c) 2002-2016 oZ/acy.  All Rights Reserved.
+ *  (c) 2002-2018 oZ/acy.  All Rights Reserved.
  *
  *  Easy Image Viewer
  *  ファイル保存關聯
@@ -10,9 +10,10 @@
  *  履歴
  *    2016.2.29  修正 v0.35
  *    2016.10.12 修正 擴張子の取り出し方を變更
+ *    2018.12.23 修正 C++17對應
  */
 #include <memory>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <polymnia/dibio.h>
 #include <polymnia/pngio.h>
 #include <polymnia/jpegio.h>
@@ -98,9 +99,8 @@ BOOL pngDlgProc2__(urania::Dialog* dlg, UINT msg, WPARAM wp, LPARAM lp)
 void 
 savePng__(
   urania::Window* win, polymnia::Picture* pct, polymnia::PictureIndexed* pidx,
-  const std::wstring& file)
+  const std::filesystem::path& path)
 {
-  std::string path = urania::System::strcpyWideToMultiByte(file);
   if (pidx)
   {
     int res = 
@@ -152,7 +152,7 @@ void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
 {
   using namespace polymnia;
   using namespace urania;
-  namespace fs = boost::filesystem;
+  namespace fs = std::filesystem;
 
   std::unique_ptr<Picture> pict;
   std::unique_ptr<PictureIndexed> ppc;
@@ -163,27 +163,24 @@ void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
   else
     return;
 
-  std::string ext = fs::path(file).extension().string();
-  std::string path = fs::path(file).string();
+  fs::path path(file);
+  fs::path ext = path.extension();
 
-  if (ext == ".png")
-    savePng__(win, pict.get(), ppc.get(), file);
-  else if (ext == ".jpg" || ext == ".jpeg")
+  if (ext == ".png" || ext == ".PNG")
+    savePng__(win, pict.get(), ppc.get(), path);
+  else if (ext == ".jpg" || ext == ".jpeg" || ext == "JPG" || ext == "JPEG")
   {
     if (ppc)
       pict.reset(ppc->duplicatePicture());
     JpegSaver jsave;
     jsave.save(pict.get(), path);
   }
-  else //if (ext=="bmp")
-  {
-    if (ppc)
-    {
+  else /*if (ext=="bmp")*/ {
+    if (ppc) {
       IndexedDibSaver bs08;
       bs08.save(ppc.get(), path);
     }
-    else
-    {
+    else {
       DibSaver bsave;
       bsave.save(pict.get(), path);
     }
