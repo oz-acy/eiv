@@ -2,16 +2,19 @@
  *
  *  eiv.cpp
  *  by oZ/acy
- *  (c) 2002-2018 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2019 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
  *  履歴
  *    2016.2.29  修正 v0.35
  *    2016.10.12 修正 v0.36 openImage()、nextImage()、prevImage()追加
- *    2018.12.23 修正 C++17(<filesystem>)對應
+ *    2018.12.23 修正 v0.37 C++17(<filesystem>)對應
+ *    2018.12.24 修正 巡廻閲覽の擴張子判定をsetで行ふやう變更
+ *    2019.4.24  修正 v0.38 巡覽順まはりの擴張
  */
 #include <algorithm>
+#include <set>
 #include <polymnia/dibio.h>
 #include <polymnia/pngio.h>
 #include <polymnia/jpegio.h>
@@ -40,13 +43,13 @@ EIViewer* EIViewer::get()
 
 
 /**
- *  @date 2016.2.29  修正
+ *  @date 2018.12.24  修正
  */
 EIViewer::EIViewer()
-: fdlg_(urania::FileDialog::create(
+: vx_(0), vy_(0), scrX_(false), scrY_(false),
+  fdlg_(urania::FileDialog::create(
           L"ImageFile (*.bmp;*.png;*.jpg;*.jpeg)|*.bmp;*.png;*.jpg;*.jpeg|"
-          L"All Files (*.*)|*.*|")),
-  vx_(0), vy_(0), scrX_(false), scrY_(false)
+          L"All Files (*.*)|*.*|"))
 {
   using namespace urania;
 
@@ -161,6 +164,67 @@ void EIViewer::openImage(urania::Window* pw, const std::wstring& path)
 }
 
 
+
+// nextImage(), prevImage()の下請け
+namespace{
+
+constexpr int SORT_BY_NAME_ = 0;
+constexpr int SORT_BY_TIME_ = 1;
+
+// ファイル名で比較
+bool cmpByName_(const std::filesystem::path& a, const std::filesystem::path& b)
+{
+  return a.filename().native() < b.filename().native();
+}
+
+// ファイル名で比較
+bool cmpByTime_(const std::filesystem::path& a, const std::filesystem::path& b)
+{
+  return
+    std::filesystem::last_write_time(a) < std::filesystem::last_write_time(b);
+}
+
+
+// 對象ファイルのディレクトリ内の畫像ファイル一覽を取得
+std::vector<std::filesystem::path>
+getImages_(const std::filesystem::path& tgt, int sortmode)
+{
+  namespace fs = std::filesystem;
+  std::vector<fs::path> vf;
+
+  if (tgt.native().empty())
+    return vf;
+
+  if (!fs::exists(tgt)) {
+    std::wstring s = L"Image file ";
+    s += tgt.native();
+    urania::System::notify(L"Error", s + L" does not exist.");
+    return vf;
+  }
+
+  for (
+    const fs::directory_entry& x :
+    fs::directory_iterator(tgt.parent_path()) ) {
+
+    fs::path ext = x.path().extension();
+    static std::set<fs::path> extset
+      {".bmp", ".BMP", ".png", ".PNG", ".jpg", ".JPG", ".jpeg" ".JPEG"};
+    if (extset.count(ext) != 0)
+      vf.push_back(x.path());
+  }
+
+  if (sortmode == SORT_BY_NAME_)
+    std::sort(vf.begin(), vf.end(), cmpByName_);
+  else if (sortmode == SORT_BY_TIME_)
+    std::sort(vf.begin(), vf.end(), cmpByTime_);
+
+  return vf;
+}
+
+
+}//end of namespace NONAME
+
+
 /**
  * 「次」の畫像を讀み込む
  */
@@ -168,28 +232,15 @@ void EIViewer::nextImage(urania::Window* pw)
 {
   namespace fs = std::filesystem;
 
-  if (tgt_.native().empty())
+  int sortmode = SORT_BY_NAME_;
+  if (pw->getMenu()->getItemCheck(EIV_MENU_SORTBYNAME))
+    sortmode = SORT_BY_NAME_;
+  else if (pw->getMenu()->getItemCheck(EIV_MENU_SORTBYTIME))
+    sortmode = SORT_BY_TIME_;
+
+  std::vector<fs::path> vf = getImages_(tgt_, sortmode);
+  if (tgt_.empty())
     return;
-  if (!fs::exists(tgt_)) {
-    std::wstring s = L"Image file ";
-    s += tgt_.native();
-    urania::System::notify(L"Error", s + L" does not exist.");
-    return;
-  }
-
-  std::vector<fs::path> vf;
-  for (
-    const fs::directory_entry& x :
-    fs::directory_iterator(tgt_.parent_path()) ) {
-
-    fs::path ext = x.path().extension();
-    if (
-      ext == ".bmp" || ext == ".png" || ext == ".jpg" || ext == ".jpeg"
-      || ext == ".BMP" || ext == ".PNG" || ext == ".JPG" || ext == "JPEG") {
-
-      vf.push_back(x.path());
-    }
-  }
 
   auto jt = std::find(vf.begin(), vf.end(), tgt_);
   if (jt == vf.end()) {
@@ -215,28 +266,15 @@ void EIViewer::prevImage(urania::Window* pw)
 {
   namespace fs = std::filesystem;
 
-  if (tgt_.native().empty())
+  int sortmode = SORT_BY_NAME_;
+  if (pw->getMenu()->getItemCheck(EIV_MENU_SORTBYNAME))
+    sortmode = SORT_BY_NAME_;
+  else if (pw->getMenu()->getItemCheck(EIV_MENU_SORTBYTIME))
+    sortmode = SORT_BY_TIME_;
+
+  std::vector<fs::path> vf = getImages_(tgt_, sortmode);
+  if (tgt_.empty())
     return;
-  else if (!fs::exists(tgt_)) {
-    std::wstring s = L"Image file ";
-    s += tgt_.native();
-    urania::System::notify(L"Error", s + L" does not exist.");
-    return;
-  }
-
-  std::vector<fs::path> vf;
-  for (
-    const fs::directory_entry& x :
-    fs::directory_iterator(tgt_.parent_path()) ) {
-
-    fs::path ext = x.path().extension();
-    if (
-      ext == ".bmp" || ext == ".png" || ext == ".jpg" || ext == ".jpeg"
-      || ext == ".BMP" || ext == ".PNG" || ext == ".JPG" || ext == "JPEG") {
-
-      vf.push_back(x.path());
-    }
-  }
 
   auto jt = std::find(vf.rbegin(), vf.rend(), tgt_);
   if (jt == vf.rend()) {
@@ -335,7 +373,7 @@ void EIViewer::loadImage(urania::Window* pw)
 
   vx_ = 0;
   vy_ = 0;
-  pw->resizeScreen(w, h);
+  pw->resizeClientArea(w, h);
 
   //std::wstring str = fs::path(file).filename().wstring();
   std::wstring str = tgt_.filename().wstring();
@@ -404,6 +442,21 @@ void EIViewer::onMenuAbout(urania::Window* win)
   std::wstring str
     = std::wstring(EIVNAME) + L"  " + VERSTR + L"\n" + COPYRIGHTSTR;
   urania::System::notify(L"About", str);
+}
+
+
+/*==================================*/
+void EIViewer::onMenuSortByName(urania::Window* win)
+{
+  win->getMenu()->checkItem(EIV_MENU_SORTBYNAME);
+  win->getMenu()->uncheckItem(EIV_MENU_SORTBYTIME);
+}
+
+/*==================================*/
+void EIViewer::onMenuSortByTime(urania::Window* win)
+{
+  win->getMenu()->uncheckItem(EIV_MENU_SORTBYNAME);
+  win->getMenu()->checkItem(EIV_MENU_SORTBYTIME);
 }
 
 

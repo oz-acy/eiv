@@ -2,15 +2,14 @@
  *
  *  eiv2.cpp
  *  by oZ/acy
- *  (c) 2002-2016 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2018 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer (PLUS)
  *
  *  履歴
  *    2016.2.29  修正 v0.35
+ *    2018.12.18 ライブラリ仕樣變更に追從
  */
-
-#include <polymnia/pictcvt.h>
 #include "eiv.h"
 
 
@@ -45,7 +44,7 @@ void EIViewer::to256(urania::Window* qw)
 
 
   std::unique_ptr<Picture> pict(qrgb_->createPicture());
-  std::unique_ptr<PictureIndexed> ppc(reducePictureColors(pict.get()));
+  std::unique_ptr<PictureIndexed> ppc(pict->duplicatePictureIndexed());
   pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
   qrgb_.reset();
   wtdlg.reset();
@@ -86,7 +85,7 @@ void EIViewer::toGrayScale(urania::Window* qw)
 
   std::unique_ptr<Picture> pict(qrgb_->createPicture());
   std::unique_ptr<PictureIndexed> 
-    ppc(createPictureGrayScaleIndexed(pict.get()));
+    ppc(pict->createPictureGrayScaleIndexed());
   pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
   qrgb_.reset();
 

@@ -19,18 +19,18 @@
 #define EIV_MAIN_MENU 6700
 
 
-// ÉÅÉjÉÖÅ[çÄñ⁄
+// „É°„Éã„É•„ÉºÈ†ÖÁõÆ
 #define EIV_MENU_OPEN 100
 #define EIV_MENU_SAVE 101
 #define EIV_MENU_END 102
 #define EIV_MENU_ABOUT 103
-
-#define EIV_MENU_WALLPAPER 111
+#define EIV_MENU_WALLPAPER 104
 
 #define EIV_MENU_CNV_TO256 110
-#define EIV_MENU_CNV_GS 114
+#define EIV_MENU_CNV_GS 111
 
-
+#define EIV_MENU_SORTBYNAME 120
+#define EIV_MENU_SORTBYTIME 121
 
 
 //eof

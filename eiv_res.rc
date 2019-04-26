@@ -1,9 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////
 //  eiv.rc
-//  (c) 2002-2016 oZ/acy.  ALL RIGHTS RESERVED.
+//  (c) 2002-2019 oZ/acy.  ALL RIGHTS RESERVED.
 //
-//  EIV—pƒŠƒ\[ƒX
+//  EIVç”¨ãƒªã‚½ãƒ¼ã‚¹
 //////////////////////////////////////////////////////////////////////////
+#pragma code_page(65001)
+
 
 #ifndef WORKSHOP_INVOKED
 #include "windows.h"
@@ -12,11 +14,11 @@
 #include "eiv_res.h"
 
 
-// ƒAƒvƒŠ‚ÌƒAƒCƒRƒ“
+// ã‚¢ãƒ—ãƒªã®ã‚¢ã‚¤ã‚³ãƒ³
 EIV_ICON  ICON  icon1.ico
 
 
-// ƒƒCƒ“ƒƒjƒ…[
+// ãƒ¡ã‚¤ãƒ³ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 EIV_MAIN_MENU MENU LOADONCALL DISCARDABLE
 BEGIN
   POPUP "&File"
@@ -24,55 +26,60 @@ BEGIN
     MENUITEM "&Open", EIV_MENU_OPEN
     MENUITEM "&Save", EIV_MENU_SAVE
     MENUITEM SEPARATOR
-    MENUITEM "256F‚ÉŒ¸F", EIV_MENU_CNV_TO256
-    MENUITEM "ƒOƒŒƒCƒXƒP[ƒ‹‰»", EIV_MENU_CNV_GS
-    MENUITEM "•ÇŽ†‚ÉÝ’è", EIV_MENU_WALLPAPER
-//    MENUITEM "•ÇŽ†‚ÉÝ’è(’†‰›‚É)", EIV_MENU_WALL_CENTER
-//    MENUITEM "•ÇŽ†‚ÉÝ’è(â‚×‚Ä)", EIV_MENU_WALL_TILE
-//    MENUITEM "•ÇŽ†‚ÉÝ’è(°‘å)", EIV_MENU_WALL_EXT
+    MENUITEM "å£ç´™ã«è¨­å®š", EIV_MENU_WALLPAPER
     MENUITEM SEPARATOR
     MENUITEM "&End", EIV_MENU_END
+  END
+  POPUP "&View"
+  BEGIN
+    MENUITEM "ãƒ•ã‚¡ã‚¤ãƒ«åé †ã«å·¡è¦½", EIV_MENU_SORTBYNAME, CHECKED
+    MENUITEM "æ›´æ–°æ—¥é †ã«å·¡è¦½", EIV_MENU_SORTBYTIME
+  END
+  POPUP "&Edit"
+  BEGIN
+    MENUITEM "256è‰²ã«æ¸›è‰²", EIV_MENU_CNV_TO256
+    MENUITEM "ã‚°ãƒ¬ã‚¤ã‚¹ã‚±ãƒ¼ãƒ«åŒ–", EIV_MENU_CNV_GS
   END
   MENUITEM "&About", EIV_MENU_ABOUT
 END
 
 
-// 256Œ¸Fˆ—‘Ò‚¿ƒ_ƒCƒAƒƒO
+// 256æ¸›è‰²å‡¦ç†å¾…ã¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 EIV_WAITDLG DIALOG  DISCARDABLE 30, 30, 170, 30
 STYLE WS_POPUP|WS_BORDER|WS_VISIBLE
 CAPTION "Wait!!"
 BEGIN
-  LTEXT "ˆ—’†. ‚µ‚Î‚ç‚­‚¨‘Ò‚¿‰º‚³‚¢...", 277, 16, 12, 150, 16
+  LTEXT "å‡¦ç†ä¸­. ã—ã°ã‚‰ããŠå¾…ã¡ä¸‹ã•ã„...", 277, 16, 12, 150, 16
 END
 
 
-// PNG•Û‘¶ƒ_ƒCƒAƒƒO (24bit)
+// PNGä¿å­˜ãƒ€ã‚¤ã‚¢ãƒ­ã‚° (24bit)
 EIV_PNGDLG DIALOG 30, 30, 130, 45
 STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
-CAPTION "PNGŒ`Ž®‚Ì•Û‘¶"
+CAPTION "PNGå½¢å¼ã®ä¿å­˜"
 LANGUAGE LANG_JAPANESE, 0x1
 FONT 0, ""
 BEGIN
-    CHECKBOX "ƒCƒ“ƒ^[ƒŒƒX‚Å•Û‘¶", EIV_PNGCHECK, 8, 6, 88, 14,
+    CHECKBOX "ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ¬ã‚¹ã§ä¿å­˜", EIV_PNGCHECK, 8, 6, 88, 14,
       BS_CHECKBOX | BS_AUTOCHECKBOX | WS_TABSTOP
     PUSHBUTTON "OK", EIV_PNGOK, 16, 25, 39, 14
-    PUSHBUTTON "ƒLƒƒƒ“ƒZƒ‹", EIV_PNGCANCEL, 61, 25, 52, 14
+    PUSHBUTTON "ã‚­ãƒ£ãƒ³ã‚»ãƒ«", EIV_PNGCANCEL, 61, 25, 52, 14
 END
 
 
-// PNG•Û‘¶ƒ_ƒCƒAƒƒO (256 indexed)
+// PNGä¿å­˜ãƒ€ã‚¤ã‚¢ãƒ­ã‚° (256 indexed)
 EIV_PNGIDXDLG DIALOG 30, 30, 130, 57
 STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
-CAPTION "PNGŒ`Ž®‚Ì•Û‘¶"
+CAPTION "PNGå½¢å¼ã®ä¿å­˜"
 LANGUAGE LANG_JAPANESE, 0x1
 FONT 0, ""
 BEGIN
-    CHECKBOX "ƒCƒ“ƒ^[ƒŒƒX‚Å•Û‘¶", EIV_PNGIDXCHECK, 15, 19, 88, 14,
+    CHECKBOX "ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ¬ã‚¹ã§ä¿å­˜", EIV_PNGIDXCHECK, 15, 19, 88, 14,
       BS_CHECKBOX | BS_AUTOCHECKBOX | WS_TABSTOP
-    CHECKBOX "¶ãŠp‚ÌF‚ð“§–¾‰»", EIV_PNGIDXTRANS, 15, 5, 88, 14,
+    CHECKBOX "å·¦ä¸Šè§’ã®è‰²ã‚’é€æ˜ŽåŒ–", EIV_PNGIDXTRANS, 15, 5, 88, 14,
       BS_CHECKBOX | BS_AUTOCHECKBOX | WS_TABSTOP
     PUSHBUTTON "OK", EIV_PNGIDXOK, 14, 36, 39, 14
-    PUSHBUTTON "ƒLƒƒƒ“ƒZƒ‹", EIV_PNGIDXCANCEL, 62, 36, 52, 14
+    PUSHBUTTON "ã‚­ãƒ£ãƒ³ã‚»ãƒ«", EIV_PNGIDXCANCEL, 62, 36, 52, 14
 END
 
 

@@ -3,7 +3,7 @@
  *  eiv.h
  *
  *  by oZ/acy
- *  (c) 2002-2018 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2019 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
@@ -11,6 +11,7 @@
  *    2016.2.29  修正 (v 0.35)
  *    2016.10.12 修正 (v 0.36)
  *    2018.12.23 修正 (v 0.37)
+ *    2019.4.24  修正 (v 0.38)
  *
  */
 #ifndef INC_EIV_HEADER_
@@ -25,9 +26,9 @@
 
 
 constexpr wchar_t EIVNAME[] = L"Easy Image Viewer";
-constexpr wchar_t VERSTR[] = L"Ver. 0.37";
+constexpr wchar_t VERSTR[] = L"Ver. 0.38";
 constexpr wchar_t COPYRIGHTSTR[]
- = L"Copyright © 2000-2018 oZ/acy. All Right Reserved.";
+ = L"Copyright © 2000-2019 oZ/acy. All Right Reserved.";
 
 
 
@@ -74,6 +75,9 @@ public:
   static void onMenuCnvTo256(urania::Window* win);
   static void onMenuCnvGS(urania::Window* win);
   static void onMenuWallpaper(urania::Window* win);
+  static void onMenuSortByName(urania::Window* win);
+  static void onMenuSortByTime(urania::Window* win);
+
 
   void setX(urania::Window* pw, int x);
   void setY(urania::Window* pw, int y);

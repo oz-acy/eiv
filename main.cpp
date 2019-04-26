@@ -1,17 +1,15 @@
-/**************************************************************************
+/**********************************************************************//**
  *
- *  main.cpp
- *  by oZ/acy
- *  (c) 2002-2016 oZ/acy. ALL RIGHTS RESERVED.
+ *  @file main.cpp
+ *  @author oZ/acy (–¼‰êŒWk)
+ *  @brief EIV‚ÌWinMain()
  *
- *  Easy Image Viewer
- *  WinMain() ‘¼
- *
- *  —š—ğ
- *    2016.2.29  C³ (v0.35)
- *    2016.10.11 C³ (v0.35 again)
+ *  @date 2016.2.29  C³ (v0.35)
+ *  @date 2016.10.11 C³ (v0.35 again) liburania‚ÌdéÌX‚É’Çœn
+ *  @date 2019.4.24  C³ (v0.38) „æT‡w’è‚É‚©‚©‚é°’£
+ *//*
+ *  (c) 2002-2019 oZ/acy. ALL RIGHTS RESERVED.
  */
-
 #include <themis/strconv.h>
 #include "eiv.h"
 
@@ -46,13 +44,15 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE, LPWSTR, int)
     de.h = 280;
 
     unique_ptr<EIVWMHandler> hndlr(new EIVWMHandler);
-    hndlr->set(EIV_MENU_OPEN, EIViewer::onMenuOpen);
-    hndlr->set(EIV_MENU_END, EIViewer::onMenuEnd);
-    hndlr->set(EIV_MENU_ABOUT, EIViewer::onMenuAbout);
-    hndlr->set(EIV_MENU_SAVE, EIViewer::onMenuSave);
-    hndlr->set(EIV_MENU_CNV_TO256, EIViewer::onMenuCnvTo256);
-    hndlr->set(EIV_MENU_CNV_GS, EIViewer::onMenuCnvGS);
-    hndlr->set(EIV_MENU_WALLPAPER, EIViewer::onMenuWallpaper);
+    hndlr->regist(EIV_MENU_OPEN, EIViewer::onMenuOpen);
+    hndlr->regist(EIV_MENU_END, EIViewer::onMenuEnd);
+    hndlr->regist(EIV_MENU_ABOUT, EIViewer::onMenuAbout);
+    hndlr->regist(EIV_MENU_SAVE, EIViewer::onMenuSave);
+    hndlr->regist(EIV_MENU_CNV_TO256, EIViewer::onMenuCnvTo256);
+    hndlr->regist(EIV_MENU_CNV_GS, EIViewer::onMenuCnvGS);
+    hndlr->regist(EIV_MENU_WALLPAPER, EIViewer::onMenuWallpaper);
+    hndlr->regist(EIV_MENU_SORTBYNAME, EIViewer::onMenuSortByName);
+    hndlr->regist(EIV_MENU_SORTBYTIME, EIViewer::onMenuSortByTime);
 
     unique_ptr<Window> pw(de.create(hndlr.release(), EIV_MAIN_MENU));
 
