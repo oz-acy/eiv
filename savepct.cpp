@@ -164,7 +164,8 @@ void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
     return;
 
   fs::path path(file);
-  fs::path ext = path.extension();
+  //fs::path ext = path.extension();
+  std::string ext = path.extension().string();
 
   if (ext == ".png" || ext == ".PNG")
     savePng__(win, pict.get(), ppc.get(), path);

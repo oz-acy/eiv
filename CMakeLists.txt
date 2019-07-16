@@ -4,6 +4,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 SET(CMAKE_VERBOSE_MAKEFILE 1)
 
 set(CMAKE_CXX_FLAGS "-Wall -std=c++17 -O3 -DWINVER=0x500 -D_UNICODE -DUNICODE -municode")
+#set(CMAKE_CXX_FLAGS "-Wall -std=c++17 -stdlib=libc++ -O3 -DWINVER=0x500 -D_UNICODE -DUNICODE -municode")
+
 #SET(CMAKE_LD_FLAGS "-mwindows -static")
 
 #PROJECT(eiv CXX)
@@ -33,6 +35,7 @@ SET_TARGET_PROPERTIES(eiv PROPERTIES LINK_FLAGS "-mwindows -static -municode")
 TARGET_LINK_LIBRARIES(eiv
 #  urania polymnia themis jpeg png z boost_filesystem-mt boost_system-mt stdc++fs)
   urania polymnia themis jpeg png z stdc++fs)
+#  urania polymnia themis jpeg png z)
 INSTALL(TARGETS eiv DESTINATION bin)
 
 

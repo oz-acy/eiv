@@ -63,7 +63,6 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE, LPWSTR, int)
     eiv->handleMenu(pw.get());
     eiv->sizeHandleAndMore(pw.get());
 
-
     System::messageLoop();
 
 

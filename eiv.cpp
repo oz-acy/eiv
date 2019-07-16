@@ -155,7 +155,8 @@ void EIViewer::openImage(urania::Window* pw, const std::wstring& path)
   tgt_ = path;
   if (!fs::exists(tgt_)) {
     std::wstring s = L"Image file ";
-    s += tgt_.native();
+    //s += tgt_.native();
+    s += tgt_.wstring();
     urania::System::notify(L"Error", s + L" does not exist.");
     return;
   }
@@ -197,7 +198,8 @@ getImages_(const std::filesystem::path& tgt, int sortmode)
 
   if (!fs::exists(tgt)) {
     std::wstring s = L"Image file ";
-    s += tgt.native();
+    //s += tgt.native();
+    s += tgt.wstring();
     urania::System::notify(L"Error", s + L" does not exist.");
     return vf;
   }
