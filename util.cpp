@@ -4,11 +4,11 @@
  *  by oZ/acy
  *  (c) 2002-2009 oZ/acy.  ALL RIGHTS RESERVED.
  *
- *  —š—ð
- *    14 Feb 2004  ì¬
- *    28 Dec 2005  C³
- *     4 Apr 2009  C³
- *    15 Nov 2009  C³
+ *  å±¥æ­´
+ *    14 Feb 2004  ä½œæˆ
+ *    28 Dec 2005  ä¿®æ­£
+ *     4 Apr 2009  ä¿®æ­£
+ *    15 Nov 2009  ä¿®æ­£
  *************************************************************************/
 
 #include <themis/strconv.h>
@@ -16,9 +16,9 @@
 
 /*==========================================================
  *  getFileExt()
- *  ƒtƒ@ƒCƒ‹–¼‚©‚ç°’£Žq‚ðŽæ‚èo‚µA¬•¶Žš‚Å•Ô‚·
+ *  ãƒ•ã‚¡ã‚¤ãƒ«åã‹ã‚‰æ“´å¼µå­ã‚’å–ã‚Šå‡ºã—ã€å°æ–‡å­—ã§è¿”ã™
  *
- *  ”õl : ƒpƒX‚É“K—pŽž‚Í§“®‚ª³‚µ‚­‚È‚¢ê‡‚ª‚ ‚é
+ *  å‚™è€ƒ : ãƒ‘ã‚¹ã«é©ç”¨æ™‚ã¯æ“§å‹•ãŒæ­£ã—ããªã„å ´åˆãŒã‚ã‚‹
  *========================================================*/
 std::wstring getFileExt(const std::wstring& file)
 {
@@ -32,9 +32,9 @@ std::wstring getFileExt(const std::wstring& file)
 
 /*=========================================================
  *  getFileTitle()
- *  ƒtƒ@ƒCƒ‹ƒpƒX‚©‚çƒtƒ@ƒCƒ‹–¼‚Ì‚ÝŽæ‚èo‚·
+ *  ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«åã®ã¿å–ã‚Šå‡ºã™
  *
- *  ”õl : ƒpƒX™½Ø‚Í DOS/Windows €Ÿ
+ *  å‚™è€ƒ : ãƒ‘ã‚¹å€åˆ‡ã¯ DOS/Windows æº–æ“š
  *=======================================================*/
 std::wstring getFileTitle(const std::wstring& path)
 {

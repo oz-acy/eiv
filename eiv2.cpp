@@ -6,9 +6,9 @@
  *
  *  Easy Image Viewer (PLUS)
  *
- *  —š—ğ
- *    2016.2.29  C³ v0.35
- *    2018.12.18 ƒ‰ƒCƒuƒ‰ƒŠdéÌX‚É’Çœn
+ *  å±¥æ­´
+ *    2016.2.29  ä¿®æ­£ v0.35
+ *    2018.12.18 ãƒ©ã‚¤ãƒ–ãƒ©ãƒªä»•æ¨£è®Šæ›´ã«è¿½å¾
  */
 #include "eiv.h"
 
@@ -24,7 +24,7 @@ void EIViewer::onMenuCnvTo256(urania::Window* win)
 
 /*====================================================
  *  EIViewer::to256()
- *  256‚ÉŒ¸F
+ *  256ã«æ¸›è‰²
  *==================================================*/
 BOOL dProc(urania::Dialog*, UINT, WPARAM, LPARAM)
 {
@@ -73,7 +73,7 @@ void EIViewer::onMenuCnvGS(urania::Window* win)
 
 /*====================================================
  *  EIViewer::toGrayScale()
- *  ƒ‚ƒmƒNƒ‰»
+ *  ãƒ¢ãƒã‚¯ãƒ­åŒ–
  *==================================================*/
 void EIViewer::toGrayScale(urania::Window* qw)
 {
