@@ -1,14 +1,15 @@
 /**************************************************************************
  *
  *  eiv2.cpp
- *  by oZ/acy
- *  (c) 2002-2018 oZ/acy.  ALL RIGHTS RESERVED.
+ *  by oZ/acy (名賀月晃嗣)
+ *  (c) 2002-2019 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer (PLUS)
  *
  *  履歴
  *    2016.2.29  修正 v0.35
  *    2018.12.18 ライブラリ仕樣變更に追從
+ *    2019.8.29  polymnia, uraniaの改修に追隨
  */
 #include "eiv.h"
 
@@ -42,10 +43,9 @@ void EIViewer::to256(urania::Window* qw)
   std::unique_ptr<Dialog> wtdlg(
     Dialog::doOwnedModeless(EIV_WAITDLG, qw, nullptr, nullptr, dProc));
 
-
-  std::unique_ptr<Picture> pict(qrgb_->createPicture());
-  std::unique_ptr<PictureIndexed> ppc(pict->duplicatePictureIndexed());
-  pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
+  auto pict = qrgb_->duplicatePicture();
+  auto ppc = pict->duplicatePictureIndexed();
+  pvd_ = PaintMemDeviceIndexed::duplicate(ppc.get());
   qrgb_.reset();
   wtdlg.reset();
 
@@ -83,12 +83,10 @@ void EIViewer::toGrayScale(urania::Window* qw)
   if (!qrgb_)
     return;
 
-  std::unique_ptr<Picture> pict(qrgb_->createPicture());
-  std::unique_ptr<PictureIndexed> 
-    ppc(pict->createPictureGrayScaleIndexed());
-  pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
+  auto pict = qrgb_->duplicatePicture();
+  auto ppc = pict->createPictureGrayScaleIndexed();
+  pvd_ = PaintMemDeviceIndexed::duplicate(ppc.get());
   qrgb_.reset();
-
 
   handleMenu(qw);
 

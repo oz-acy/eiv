@@ -1,7 +1,7 @@
 /**************************************************************************
  *
  *  eiv.cpp
- *  by oZ/acy
+ *  by oZ/acy (名賀月晃嗣)
  *  (c) 2002-2019 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
@@ -12,6 +12,7 @@
  *    2018.12.23 修正 v0.37 C++17(<filesystem>)對應
  *    2018.12.24 修正 巡廻閲覽の擴張子判定をsetで行ふやう變更
  *    2019.4.24  修正 v0.38 巡覽順まはりの擴張
+ *    2019.8.29  修正 polymnia, uraniaの改修に追隨
  */
 #include <algorithm>
 #include <set>
@@ -29,7 +30,7 @@
 std::unique_ptr<EIViewer> EIViewer::eiv_S;
 
 
-/**
+/*
  *  Singletonパターンによる唯一のインスタンスを取得する。
  *  @brief 唯一のインスタンスの取得
  */
@@ -310,48 +311,48 @@ void EIViewer::loadImage(urania::Window* pw)
   std::unique_ptr<Picture> pict;
 
   // 擴張子に應じてロード
-  if (ext == ".bmp" || ext == ".BMP")
-  {
+  if (ext == ".bmp" || ext == ".BMP") {
     IndexedDibLoader bpload;
-    ppc.reset(bpload.load(tgt_));
-    if (!ppc)
-    {
+    ppc = bpload.load(tgt_);
+    //ppc.reset(bpload.load(tgt_));
+    if (!ppc) {
       DibLoader bload;
-      pict.reset(bload.load(tgt_));
+      pict = bload.load(tgt_);
+      //pict.reset(bload.load(tgt_));
     }
   }
-  else if (ext == ".png" || ext == ".PNG")
-  {
+  else if (ext == ".png" || ext == ".PNG") {
     IndexedPngLoader ppload;
-    ppc.reset(ppload.load(tgt_));
-    if (!ppc)
-    {
+    ppc = ppload.load(tgt_);
+    //ppc.reset(ppload.load(tgt_));
+    if (!ppc) {
       PngLoader pload;
-      pict.reset(pload.load(tgt_));
+      pict = pload.load(tgt_);
+      //pict.reset(pload.load(tgt_));
     }
   }
-  else if(ext == ".jpg" || ext == ".jpeg" || ext == ".JPG" || ext == ".JPEG")
-  {
+  else if(ext == ".jpg" || ext == ".jpeg" || ext == ".JPG" || ext == ".JPEG") {
     JpegLoader jload;
-    pict.reset(jload.load(tgt_));
+    pict = jload.load(tgt_);
+    //pict.reset(jload.load(tgt_));
   }
 
 
   // ロードしたデータをきちんと格納する
   int w, h;
   std::wstring itype;
-  if (ppc)
-  {
-    pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
+  if (ppc) {
+    pvd_ = PaintMemDeviceIndexed::duplicate(ppc.get());
+    //pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
     qrgb_.reset();
 
     itype = L" (256 Color)";
     w = pvd_->width();
     h = pvd_->height();
   }
-  else if (pict)
-  {
-    qrgb_.reset(PaintMemDevice::create(pict.get()));
+  else if (pict) {
+    qrgb_ = PaintMemDevice::duplicate(pict.get());
+    //qrgb_.reset(PaintMemDevice::create(pict.get()));
     pvd_.reset();
 
     itype = L" (True Color)";

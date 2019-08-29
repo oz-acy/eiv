@@ -2,7 +2,7 @@
  *
  *  savepct.cpp
  *
- *  (c) 2002-2018 oZ/acy.  All Rights Reserved.
+ *  (c) 2002-2019 oZ/acy.  All Rights Reserved.
  *
  *  Easy Image Viewer
  *  ファイル保存關聯
@@ -11,13 +11,14 @@
  *    2016.2.29  修正 v0.35
  *    2016.10.12 修正 擴張子の取り出し方を變更
  *    2018.12.23 修正 C++17對應
+ *    2019.8.29  修正 polymnia, urania改修に追隨
  */
 #include <memory>
 #include <filesystem>
 #include <polymnia/dibio.h>
 #include <polymnia/pngio.h>
 #include <polymnia/jpegio.h>
-#include <themis/except.h>
+#include <themis/exception.h>
 #include "eiv.h"
 
 
@@ -157,9 +158,9 @@ void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
   std::unique_ptr<Picture> pict;
   std::unique_ptr<PictureIndexed> ppc;
   if (pvd_)
-    ppc.reset(pvd_->createPicture());
+    ppc = pvd_->duplicatePictureIndexed();
   else if (qrgb_)
-    pict.reset(qrgb_->createPicture());
+    pict = qrgb_->duplicatePicture();
   else
     return;
 
@@ -169,10 +170,9 @@ void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
 
   if (ext == ".png" || ext == ".PNG")
     savePng__(win, pict.get(), ppc.get(), path);
-  else if (ext == ".jpg" || ext == ".jpeg" || ext == "JPG" || ext == "JPEG")
-  {
+  else if (ext == ".jpg" || ext == ".jpeg" || ext == "JPG" || ext == "JPEG") {
     if (ppc)
-      pict.reset(ppc->duplicatePicture());
+      pict = ppc->duplicatePicture();
     JpegSaver jsave;
     jsave.save(pict.get(), path);
   }
