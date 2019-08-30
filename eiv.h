@@ -125,8 +125,8 @@ public:
 
 
 /* 雜多な函數  */
-std::wstring getFileExt(const std::wstring& file);
-std::wstring getFileTitle(const std::wstring& path);
+//std::wstring getFileExt(const std::wstring& file);
+//std::wstring getFileTitle(const std::wstring& path);
 
 
 #endif
