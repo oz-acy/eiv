@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////
 //  eiv.rc
-//  (c) 2002-2019 oZ/acy.  ALL RIGHTS RESERVED.
+//  (c) 2002-2021 oZ/acy.  ALL RIGHTS RESERVED.
 //
 //  EIV用リソース
 //////////////////////////////////////////////////////////////////////////
@@ -21,24 +21,29 @@ EIV_ICON  ICON  icon1.ico
 // メインメニュー
 EIV_MAIN_MENU MENU LOADONCALL DISCARDABLE
 BEGIN
-  POPUP "&File"
+  POPUP "ファイル(&F)"
   BEGIN
-    MENUITEM "&Open", EIV_MENU_OPEN
-    MENUITEM "&Save", EIV_MENU_SAVE
+    MENUITEM "開く(&O)", EIV_MENU_OPEN
+    MENUITEM "保存する(&S)", EIV_MENU_SAVE
     MENUITEM SEPARATOR
-    MENUITEM "壁紙に設定", EIV_MENU_WALLPAPER
+    MENUITEM "壁紙に設定する(&W)", EIV_MENU_WALLPAPER
     MENUITEM SEPARATOR
-    MENUITEM "&End", EIV_MENU_END
+    MENUITEM "終了する(&Q)", EIV_MENU_END
   END
-  POPUP "&View"
+  POPUP "表示(&V)"
   BEGIN
-    MENUITEM "ファイル名順に巡覽", EIV_MENU_SORTBYNAME, CHECKED
-    MENUITEM "更新日順に巡覽", EIV_MENU_SORTBYTIME
+    MENUITEM "原寸で表示する(&A)", EIV_MENU_ACTUAL_SIZE, CHECKED
+    MENUITEM "ウィンドウの大きさで表示する(&S)", EIV_MENU_SCALING
   END
-  POPUP "&Edit"
+  POPUP "巡覽(&R)"
   BEGIN
-    MENUITEM "256色に減色", EIV_MENU_CNV_TO256
-    MENUITEM "グレイスケール化", EIV_MENU_CNV_GS
+    MENUITEM "ファイル名順(&N)", EIV_MENU_SORTBYNAME, CHECKED
+    MENUITEM "更新日順(&D)", EIV_MENU_SORTBYTIME
+  END
+  POPUP "編輯(&E)"
+  BEGIN
+    MENUITEM "256色に減色(&R)", EIV_MENU_CNV_TO256
+    MENUITEM "グレイスケール化(&G)", EIV_MENU_CNV_GS
   END
   MENUITEM "&About", EIV_MENU_ABOUT
 END

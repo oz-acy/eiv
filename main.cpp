@@ -52,6 +52,8 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE, LPWSTR, int)
     hndlr->regist(EIV_MENU_WALLPAPER, EIViewer::onMenuWallpaper);
     hndlr->regist(EIV_MENU_SORTBYNAME, EIViewer::onMenuSortByName);
     hndlr->regist(EIV_MENU_SORTBYTIME, EIViewer::onMenuSortByTime);
+    hndlr->regist(EIV_MENU_ACTUAL_SIZE, EIViewer::onMenuActualSize);
+    hndlr->regist(EIV_MENU_SCALING, EIViewer::onMenuScaling);
 
     auto win = wf.create(std::move(hndlr), EIV_MAIN_MENU);
 

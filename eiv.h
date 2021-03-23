@@ -12,12 +12,13 @@
  *    2016.10.12 修正 (v 0.36)
  *    2018.12.23 修正 (v 0.37)
  *    2019.4.24  修正 (v 0.38)
+ *    2021.x.xx  修正 (v 0.39)
  *
  */
 #ifndef INC_EIV_HEADER_
 #define INC_EIV_HEADER_
 
-#include <urania/win.h>
+#include <urania/window.h>
 #include <urania/dialog.h>
 #include <urania/cmndlg.h>
 #include <filesystem>
@@ -26,9 +27,9 @@
 
 
 constexpr wchar_t EIVNAME[] = L"Easy Image Viewer";
-constexpr wchar_t VERSTR[] = L"Ver. 0.38";
+constexpr wchar_t VERSTR[] = L"Ver. 0.39";
 constexpr wchar_t COPYRIGHTSTR[]
- = L"Copyright © 2000-2019 oZ/acy. All Right Reserved.";
+ = L"Copyright © 2000-2021 oZ/acy. All Right Reserved.";
 
 
 
@@ -39,6 +40,13 @@ constexpr wchar_t COPYRIGHTSTR[]
  */
 class EIViewer
 {
+public:
+  enum ViewMode {
+    VIEW_ACTUAL_SIZE = 0,
+    VIEW_SCALING = 1
+  };
+
+
 private:
   static std::unique_ptr<EIViewer> eiv_S;
 
@@ -52,6 +60,9 @@ private:
   int vx_, vy_;
   bool scrX_, scrY_;
   std::unique_ptr<urania::FileDialog> fdlg_;
+
+  ViewMode vmode_;
+
 
 private:
   EIViewer();
@@ -77,7 +88,8 @@ public:
   static void onMenuWallpaper(urania::Window* win);
   static void onMenuSortByName(urania::Window* win);
   static void onMenuSortByTime(urania::Window* win);
-
+  static void onMenuActualSize(urania::Window* win);
+  static void onMenuScaling(urania::Window* win);
 
   void setX(urania::Window* pw, int x);
   void setY(urania::Window* pw, int y);
@@ -95,6 +107,9 @@ public:
   void toGrayScale(urania::Window* pw);
 
   void toWallPaper();
+
+  ViewMode getViewMode() const { return vmode_; }
+  void setViewMode(ViewMode v) { vmode_ = v; }
 };
 
 

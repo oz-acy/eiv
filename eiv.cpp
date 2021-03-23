@@ -50,7 +50,8 @@ EIViewer::EIViewer()
 : vx_(0), vy_(0), scrX_(false), scrY_(false),
   fdlg_(urania::FileDialog::create(
           L"ImageFile (*.bmp;*.png;*.jpg;*.jpeg)|*.bmp;*.png;*.jpg;*.jpeg|"
-          L"All Files (*.*)|*.*|"))
+          L"All Files (*.*)|*.*|")),
+  vmode_(VIEW_ACTUAL_SIZE)
 {
   using namespace urania;
 
@@ -71,47 +72,57 @@ EIViewer::EIViewer()
  */
 void EIViewer::sizeHandleAndMore(urania::Window* pw_TG)
 {
-  if (qrgb_ || pvd_)
-  {
-    int w = pw_TG->getClientWidth();
-    int h = pw_TG->getClientHeight();
-    int bw, bh;
 
-    if (qrgb_)
-    {
-      bw = qrgb_->width();
-      bh = qrgb_->height();
+  if (vmode_ == VIEW_ACTUAL_SIZE) {
+    if (qrgb_ || pvd_) {
+      int w = pw_TG->getClientWidth();
+      int h = pw_TG->getClientHeight();
+      int bw, bh;
+
+      if (qrgb_) {
+        bw = qrgb_->width();
+        bh = qrgb_->height();
+      }
+      else {
+        bw = pvd_->width();
+        bh = pvd_->height();
+      }
+
+      pw_TG->setRangeSB(urania::ID_SBH, 0, bw - 1, w);
+      pw_TG->setRangeSB(urania::ID_SBV, 0, bh - 1, h);
+
+      if (bw - w < vx_)
+        vx_ = bw - w;
+      if (vx_ < 0)
+        vx_ = 0;
+      if (bh - h < vy_)
+        vy_ = bh - h;
+      if (vy_ < 0)
+        vy_ = 0;
+
+      pw_TG->setPosHSB(vx_);
+      pw_TG->setPosHSB(vy_);
+
+      pw_TG->invalidate();
+      pw_TG->update();
+
     }
     else
     {
-      bw = pvd_->width();
-      bh = pvd_->height();
+      pw_TG->disableHSB();
+      pw_TG->disableVSB();
     }
-
-    pw_TG->setRangeSB(urania::ID_SBH, 0, bw - 1, w);
-    pw_TG->setRangeSB(urania::ID_SBV, 0, bh - 1, h);
-
-    if (bw - w < vx_)
-      vx_ = bw - w;
-    if (vx_ < 0)
-      vx_ = 0;
-
-    if (bh - h < vy_)
-      vy_ = bh - h;
-    if (vy_ < 0)
-      vy_ = 0;
-
-    pw_TG->setPosHSB(vx_);
-    pw_TG->setPosHSB(vy_);
-
-    pw_TG->invalidate();
-    pw_TG->update();
-
   }
-  else
-  {
+  else {
+    int w = pw_TG->getClientWidth();
+    int h = pw_TG->getClientHeight();
+    pw_TG->setRangeSB(urania::ID_SBH, 0, w - 1, w);
+    pw_TG->setRangeSB(urania::ID_SBV, 0, h - 1, h);
+
     pw_TG->disableHSB();
     pw_TG->disableVSB();
+    pw_TG->invalidate();
+    pw_TG->update();
   }
 }
 
@@ -179,7 +190,7 @@ bool cmpByName_(const std::filesystem::path& a, const std::filesystem::path& b)
   return a.filename().native() < b.filename().native();
 }
 
-// ファイル名で比較
+// 更新日時で比較
 bool cmpByTime_(const std::filesystem::path& a, const std::filesystem::path& b)
 {
   return
@@ -376,9 +387,13 @@ void EIViewer::loadImage(urania::Window* pw)
 
   vx_ = 0;
   vy_ = 0;
-  pw->resizeClientArea(w, h);
 
-  //std::wstring str = fs::path(file).filename().wstring();
+
+  if (vmode_ == VIEW_ACTUAL_SIZE)
+    pw->resizeClientArea(w, h);
+  else
+    sizeHandleAndMore(pw);
+
   std::wstring str = tgt_.filename().wstring();
   str += itype;
   str += L"  - ";
@@ -460,6 +475,25 @@ void EIViewer::onMenuSortByTime(urania::Window* win)
 {
   win->getMenu()->uncheckItem(EIV_MENU_SORTBYNAME);
   win->getMenu()->checkItem(EIV_MENU_SORTBYTIME);
+}
+
+
+/*==================================*/
+void EIViewer::onMenuActualSize(urania::Window* win)
+{
+  win->getMenu()->uncheckItem(EIV_MENU_SCALING);
+  win->getMenu()->checkItem(EIV_MENU_ACTUAL_SIZE);
+  get()->setViewMode(VIEW_ACTUAL_SIZE);
+  get()->sizeHandleAndMore(win);
+}
+
+/*==================================*/
+void EIViewer::onMenuScaling(urania::Window* win)
+{
+  win->getMenu()->uncheckItem(EIV_MENU_ACTUAL_SIZE);
+  win->getMenu()->checkItem(EIV_MENU_SCALING);
+  get()->setViewMode(VIEW_SCALING);
+  get()->sizeHandleAndMore(win);
 }
 
 

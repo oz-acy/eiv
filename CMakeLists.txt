@@ -18,13 +18,6 @@ find_package(PNG REQUIRED)
 find_package(JPEG REQUIRED)
 
 
-#set(CMAKE_CXX_FLAGS "-Wall -std=c++17 -O3 -DWINVER=0x500 -D_UNICODE -DUNICODE -municode")
-#SET(CMAKE_LD_FLAGS "-mwindows -static")
-
-
-#include_directories("${CMAKE_INSTALL_PREFIX}/include")
-#LINK_DIRECTORIES("${CMAKE_INSTALL_PREFIX}/lib")
-
 # .rcの處理の定義
 set(CMAKE_RC_COMPILER windres)
 enable_language(RC)
@@ -33,7 +26,7 @@ set(CMAKE_RC_COMPILE_OBJECT
 
 
 # eiv.exe
-add_executable(eiv
+add_executable(eiv WIN32
   main.cpp
   eiv.cpp
   eiv2.cpp
@@ -43,8 +36,6 @@ add_executable(eiv
   eiv_res.rc
 #  util.cpp
 )
-
-#SET_TARGET_PROPERTIES(eiv PROPERTIES LINK_FLAGS "-mwindows -static -municode")
 
 target_compile_options(eiv PRIVATE
   $<$<CXX_COMPILER_ID:Clang>:-Wall -O3 -municode>
@@ -60,12 +51,16 @@ target_link_libraries(eiv
 target_compile_definitions(eiv PRIVATE NDEBUG _UNICODE UNICODE WINVER=0x500)
 
 target_link_options(eiv PRIVATE
-  $<$<CXX_COMPILER_ID:Clang>:-mwindows -static -municode>
-  $<$<CXX_COMPILER_ID:GNU>:-mwindows -static -municode>
+  $<$<CXX_COMPILER_ID:Clang>:-static -municode>
+  $<$<CXX_COMPILER_ID:GNU>:-static -municode>
 )
 
-
-
+# 舊版
+# add_executableにWIN32を指定することを知る以前の版
+#target_link_options(eiv PRIVATE
+#  $<$<CXX_COMPILER_ID:Clang>:-mwindows -static -municode>
+#  $<$<CXX_COMPILER_ID:GNU>:-mwindows -static -municode>
+#)
 
 
 #INSTALL(TARGETS eiv DESTINATION bin)
