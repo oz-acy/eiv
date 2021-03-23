@@ -13,6 +13,7 @@
  *    2018.12.24 修正 巡廻閲覽の擴張子判定をsetで行ふやう變更
  *    2019.4.24  修正 v0.38 巡覽順まはりの擴張
  *    2019.8.29  修正 polymnia, uraniaの改修に追隨
+ *    2021.3.23  修正 v0.39 表示サイズのモード2つを追加
  */
 #include <algorithm>
 #include <set>
@@ -493,6 +494,8 @@ void EIViewer::onMenuScaling(urania::Window* win)
   win->getMenu()->uncheckItem(EIV_MENU_ACTUAL_SIZE);
   win->getMenu()->checkItem(EIV_MENU_SCALING);
   get()->setViewMode(VIEW_SCALING);
+  get()->vx_ = 0;
+  get()->vy_ = 0;
   get()->sizeHandleAndMore(win);
 }
 

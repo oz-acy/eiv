@@ -8,6 +8,7 @@
  *  class EIVWMHandler
  *
  *  @date 2016.10.12 onLButtonDown()、onRButtonDown()を追加
+ *  @date 2021.3.23 onPaint()、onMouseWheel()を修正
  */
 #include "eiv.h"
 #include <polymnia/dibio.h>
@@ -131,7 +132,8 @@ void EIVWMHandler::onScroll(urania::Window* pw, int id, int pos)
 void EIVWMHandler::onMouseWheel(
   urania::Window* pw, int delta, int key, int x, int y)
 {
-  pw->postMessage(WM_VSCROLL, (delta > 0) ? SB_PAGEUP : SB_PAGEDOWN, 0);
+  if (EIViewer::get()->getViewMode() == EIViewer::VIEW_ACTUAL_SIZE)
+    pw->postMessage(WM_VSCROLL, (delta > 0) ? SB_PAGEUP : SB_PAGEDOWN, 0);
 }
 
 /**

@@ -8,6 +8,7 @@
  *  @date 2016.10.11 修正 (v0.35 again) liburaniaの仕樣變更に追從
  *  @date 2019.4.24  修正 (v0.38) 巡覽順指定にかかる擴張
  *  @date 2019.8.30  修正 exceptionのcatchの仕方を修正。uraniaに追從。
+ *  @date 2021.3.23  修正 (v0.39) 表示モード追加
  *
  */
 #include "eiv.h"
