@@ -43,10 +43,7 @@ target_compile_options(eiv PRIVATE
   $<$<CXX_COMPILER_ID:MSVC>:/W4 /Ot>
 )
 
-target_link_libraries(eiv
-#  urania polymnia themis jpeg png z boost_filesystem-mt boost_system-mt stdc++fs)
-#  urania polymnia themis jpeg png z stdc++fs)
-  urania polymnia themis jpeg png z)
+target_link_libraries(eiv  urania polymnia themis jpeg png z)
 
 target_compile_definitions(eiv PRIVATE NDEBUG _UNICODE UNICODE WINVER=0x500)
 
@@ -54,7 +51,6 @@ target_link_options(eiv PRIVATE
   $<$<CXX_COMPILER_ID:Clang>:-static -municode>
   $<$<CXX_COMPILER_ID:GNU>:-static -municode>
 )
-
 # 舊版
 # add_executableにWIN32を指定することを知る以前の版
 #target_link_options(eiv PRIVATE
