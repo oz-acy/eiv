@@ -10,14 +10,12 @@
  *  @date 2019.8.30  修正 exceptionのcatchの仕方を修正。uraniaに追從。
  *  @date 2021.3.23  修正 (v0.39) 表示モード追加
  *  @date 2021.4.4   修正 liburaniaの仕樣變更に追從
+ *  @date 2021.11.23 修正 libpolymnia+libthemisからlibeunomiaに切り替へ
  *
  */
 #include "eiv.h"
 
 
-/*==================================================
- *  WinMain()
- */
 int WINAPI wWinMain(HINSTANCE hi, HINSTANCE, LPWSTR, int)
 {
   using namespace std;
@@ -70,7 +68,7 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE, LPWSTR, int)
 
     return ret;
   }
-  catch(themis::EmptyException& exc)
+  catch(eunomia::Exception& exc)
   {
     System::alert(L"error", L"Error");
     return -1;

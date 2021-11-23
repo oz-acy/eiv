@@ -2,7 +2,7 @@
  *
  *  savepct.cpp
  *
- *  (c) 2002-2019 oZ/acy.  All Rights Reserved.
+ *  (c) 2002-2021 oZ/acy.  All Rights Reserved.
  *
  *  Easy Image Viewer
  *  ファイル保存關聯
@@ -12,13 +12,16 @@
  *    2016.10.12 修正 擴張子の取り出し方を變更
  *    2018.12.23 修正 C++17對應
  *    2019.8.29  修正 polymnia, urania改修に追隨
+ *    2021.11.23 libpolymnia+libthemisからlibeunomiaに切り替へ
+ *
  */
 #include <memory>
 #include <filesystem>
-#include <polymnia/dibio.h>
-#include <polymnia/pngio.h>
-#include <polymnia/jpegio.h>
-#include <themis/exception.h>
+#include <eunomia/dibio.h>
+#include <eunomia/pngio.h>
+#include <eunomia/jpegio.h>
+#include <eunomia/exception.h>
+#include <eunomia/utility.h>
 #include "eiv.h"
 
 
@@ -41,7 +44,7 @@ void EIViewer::onMenuSave(urania::Window* win)
 
 namespace
 {
-
+/*
 BOOL pngDlgProc__(urania::Dialog* dlg, UINT msg, WPARAM wp, LPARAM lp)
 {
   (void)lp;
@@ -68,6 +71,7 @@ BOOL pngDlgProc__(urania::Dialog* dlg, UINT msg, WPARAM wp, LPARAM lp)
 
   return FALSE;
 }
+*/
 
 BOOL pngDlgProc2__(urania::Dialog* dlg, UINT msg, WPARAM wp, LPARAM lp)
 {
@@ -98,12 +102,14 @@ BOOL pngDlgProc2__(urania::Dialog* dlg, UINT msg, WPARAM wp, LPARAM lp)
 }
 
 void 
-savePng__(
-  urania::Window* win, polymnia::Picture* pct, polymnia::PictureIndexed* pidx,
+savePng8__(
+  urania::Window* win, //polymnia::Picture* pct, polymnia::PictureIndexed* pidx,
+  const eunomia::PictureIndexed& pidx,
   const std::filesystem::path& path)
 {
-  if (pidx)
-  {
+  //if (pidx)
+  //{
+
     int res = 
       urania::Dialog::doOwnedModal(
         EIV_PNGIDXDLG, win, nullptr, nullptr, pngDlgProc2__);
@@ -111,29 +117,35 @@ savePng__(
     if (res < 0)
       return;
 
-    polymnia::IndexedPngSaver ps08;
+    //polymnia::IndexedPngSaver ps08;
 
-    if (res & 1)
-      ps08.enableInterlace();
+    //if (res & 1)
+    //  ps08.enableInterlace();
+    //if (res & 2)
+    //  ps08.enableTransparent(pidx->pixel(0, 0));
+
+    //ps08.save(pidx, path);
+
     if (res & 2)
-      ps08.enableTransparent(pidx->pixel(0, 0));
+      savePng(pidx, path, true, pidx.pixel(0, 0));
+    else
+      savePng(pidx, path);
 
-    ps08.save(pidx, path);
-  }
-  else if (pct)
-  {
-    int res = 
-      urania::Dialog::doOwnedModal(
-        EIV_PNGDLG, win, nullptr, nullptr, pngDlgProc__);
+  //}
+  //else if (pct)
+  //{
+  //  int res = 
+  //    urania::Dialog::doOwnedModal(
+  //      EIV_PNGDLG, win, nullptr, nullptr, pngDlgProc__);
 
-    if (res < 0)
-      return;
+  //  if (res < 0)
+  //    return;
 
-    polymnia::PngSaver psave;
-    if (res)
-      psave.enableInterlace();
-    psave.save(pct, path);
-  }
+  //  polymnia::PngSaver psave;
+  //  if (res)
+  //    psave.enableInterlace();
+  //  psave.save(pct, path);
+  //}
 }
 
 
@@ -151,7 +163,7 @@ savePng__(
  */
 void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
 {
-  using namespace polymnia;
+  using namespace eunomia;
   using namespace urania;
   namespace fs = std::filesystem;
 
@@ -165,25 +177,37 @@ void EIViewer::saveImage(urania::Window* win, const std::wstring& file)
     return;
 
   fs::path path(file);
-  //fs::path ext = path.extension();
-  std::string ext = path.extension().string();
+  auto ext = lower(path.extension().string());
 
-  if (ext == ".png" || ext == ".PNG")
-    savePng__(win, pict.get(), ppc.get(), path);
-  else if (ext == ".jpg" || ext == ".jpeg" || ext == "JPG" || ext == "JPEG") {
+  if (ext == ".png") {  //// || ext == ".PNG")
+    if (ppc) {
+
+      savePng8__(win, *ppc, path);
+    
+    
+    } else {
+      savePng(*pict, path);
+    }
+  }
+  else if (ext == ".jpg" || ext == ".jpeg") {
+           //// || ext == "JPG" || ext == "JPEG") {
     if (ppc)
       pict = ppc->duplicatePicture();
-    JpegSaver jsave;
-    jsave.save(pict.get(), path);
+    saveJpeg(*pict, path);
+
+    //JpegSaver jsave;
+    //jsave.save(pict.get(), path);
   }
   else /*if (ext=="bmp")*/ {
     if (ppc) {
-      IndexedDibSaver bs08;
-      bs08.save(ppc.get(), path);
+      saveDib(*ppc, path);
+      //IndexedDibSaver bs08;
+      //bs08.save(ppc.get(), path);
     }
     else {
-      DibSaver bsave;
-      bsave.save(pict.get(), path);
+      saveDib(*pict, path);
+      //DibSaver bsave;
+      //bsave.save(pict.get(), path);
     }
   }
 

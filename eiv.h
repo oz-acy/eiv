@@ -13,8 +13,8 @@
  *    2021.3.23  修正 (v 0.39)
  *
  */
-#ifndef INC_EIV_HEADER_
-#define INC_EIV_HEADER_
+#ifndef INCLUDE_GUARD_EIV_H
+#define INCLUDE_GUARD_EIV_H
 
 #include <urania/window.h>
 #include <urania/dialog.h>
@@ -66,7 +66,7 @@ private:
   EIViewer();
 
 public:
-  ~EIViewer() {}
+  ~EIViewer() = default;
 
   static EIViewer* get();
 
@@ -142,4 +142,4 @@ public:
 //std::wstring getFileTitle(const std::wstring& path);
 
 
-#endif
+#endif // INCLUDE_GUARD_EIV_H

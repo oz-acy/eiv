@@ -2,7 +2,7 @@
  *
  *  eiv.cpp
  *  by oZ/acy (名賀月晃嗣)
- *  (c) 2002-2019 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2021 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *
@@ -14,15 +14,15 @@
  *    2019.4.24  修正 v0.38 巡覽順まはりの擴張
  *    2019.8.29  修正 polymnia, uraniaの改修に追隨
  *    2021.3.23  修正 v0.39 表示サイズのモード2つを追加
+ *    2021.11.23 修正 libpolymnia+libthemisからlibeunomiaに切り替へ
  */
 #include <algorithm>
 #include <set>
-#include <polymnia/dibio.h>
-#include <polymnia/pngio.h>
-#include <polymnia/jpegio.h>
+#include <eunomia/dibio.h>
+#include <eunomia/pngio.h>
+#include <eunomia/jpegio.h>
+#include <eunomia/utility.h>
 #include "eiv.h"
-
-
 
 
 /*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -314,39 +314,51 @@ void EIViewer::prevImage(urania::Window* pw)
  */
 void EIViewer::loadImage(urania::Window* pw)
 {
-  using namespace polymnia;
+  using namespace eunomia;
   using namespace urania;
   namespace fs = std::filesystem;
 
-  fs::path ext = tgt_.extension();
+  auto ext = lower(tgt_.extension().string());
+  //fs::path ext = tgt_.extension();
   std::unique_ptr<PictureIndexed> ppc;
   std::unique_ptr<Picture> pict;
+  std::unique_ptr<PictureRgba> prgba;
 
   // 擴張子に應じてロード
-  if (ext == ".bmp" || ext == ".BMP") {
-    IndexedDibLoader bpload;
-    ppc = bpload.load(tgt_);
-    //ppc.reset(bpload.load(tgt_));
-    if (!ppc) {
-      DibLoader bload;
-      pict = bload.load(tgt_);
-      //pict.reset(bload.load(tgt_));
-    }
+  if (ext == ".bmp") {  //// || ext == ".BMP") {
+    loadDib(tgt_, pict, ppc);
+
+    //IndexedDibLoader bpload;
+    //ppc = bpload.load(tgt_);
+    ////ppc.reset(bpload.load(tgt_));
+    //if (!ppc) {
+    //  DibLoader bload;
+    //  pict = bload.load(tgt_);
+    //  //pict.reset(bload.load(tgt_));
+    //}
   }
-  else if (ext == ".png" || ext == ".PNG") {
-    IndexedPngLoader ppload;
-    ppc = ppload.load(tgt_);
-    //ppc.reset(ppload.load(tgt_));
-    if (!ppc) {
-      PngLoader pload;
-      pict = pload.load(tgt_);
-      //pict.reset(pload.load(tgt_));
+  else if (ext == ".png") {  //// || ext == ".PNG") {
+    loadPng(tgt_, pict, prgba, ppc);
+    if (prgba) {
+      pict = prgba->stripAlpha();
+      prgba.reset();
     }
+
+    //IndexedPngLoader ppload;
+    //ppc = ppload.load(tgt_);
+    ////ppc.reset(ppload.load(tgt_));
+    //if (!ppc) {
+    //  PngLoader pload;
+    //  pict = pload.load(tgt_);
+    //  //pict.reset(pload.load(tgt_));
+    //}
   }
   else if(ext == ".jpg" || ext == ".jpeg" || ext == ".JPG" || ext == ".JPEG") {
-    JpegLoader jload;
-    pict = jload.load(tgt_);
-    //pict.reset(jload.load(tgt_));
+    pict = loadJpeg(tgt_);
+
+    //JpegLoader jload;
+    //pict = jload.load(tgt_);
+    ////pict.reset(jload.load(tgt_));
   }
 
 
@@ -354,8 +366,7 @@ void EIViewer::loadImage(urania::Window* pw)
   int w, h;
   std::wstring itype;
   if (ppc) {
-    pvd_ = PaintMemDeviceIndexed::duplicate(ppc.get());
-    //pvd_.reset(PaintMemDeviceIndexed::create(ppc.get()));
+    pvd_ = PaintMemDeviceIndexed::duplicate(*ppc);
     qrgb_.reset();
 
     itype = L" (256 Color)";
@@ -363,8 +374,7 @@ void EIViewer::loadImage(urania::Window* pw)
     h = pvd_->height();
   }
   else if (pict) {
-    qrgb_ = PaintMemDevice::duplicate(pict.get());
-    //qrgb_.reset(PaintMemDevice::create(pict.get()));
+    qrgb_ = PaintMemDevice::duplicate(*pict);
     pvd_.reset();
 
     itype = L" (True Color)";
@@ -383,7 +393,7 @@ void EIViewer::loadImage(urania::Window* pw)
   handleMenu(pw);
 
   std::unique_ptr<PaintDevice> ppd(pw->getPaintDevice());
-  ppd->clear(RgbColor(255, 255, 255));
+  ppd->clear(RgbColour(255, 255, 255));
   ppd.reset();
 
   vx_ = 0;

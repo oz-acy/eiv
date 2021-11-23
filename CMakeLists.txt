@@ -10,8 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 
-find_package(themis REQUIRED)
-find_package(polymnia REQUIRED)
+find_package(eunomia REQUIRED)
 find_package(urania REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(PNG REQUIRED)
@@ -43,7 +42,7 @@ target_compile_options(eiv PRIVATE
   $<$<CXX_COMPILER_ID:MSVC>:/W4 /Ot>
 )
 
-target_link_libraries(eiv  urania polymnia themis jpeg png z)
+target_link_libraries(eiv  urania eunomia jpeg png z)
 
 target_compile_definitions(eiv PRIVATE NDEBUG _UNICODE UNICODE WINVER=0x500)
 
@@ -51,13 +50,6 @@ target_link_options(eiv PRIVATE
   $<$<CXX_COMPILER_ID:Clang>:-static -municode>
   $<$<CXX_COMPILER_ID:GNU>:-static -municode>
 )
-# 舊版
-# add_executableにWIN32を指定することを知る以前の版
-#target_link_options(eiv PRIVATE
-#  $<$<CXX_COMPILER_ID:Clang>:-mwindows -static -municode>
-#  $<$<CXX_COMPILER_ID:GNU>:-mwindows -static -municode>
-#)
-
 
 #INSTALL(TARGETS eiv DESTINATION bin)
 

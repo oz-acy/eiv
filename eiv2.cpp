@@ -2,7 +2,7 @@
  *
  *  eiv2.cpp
  *  by oZ/acy (名賀月晃嗣)
- *  (c) 2002-2019 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2021 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer (PLUS)
  *
@@ -10,6 +10,7 @@
  *    2016.2.29  修正 v0.35
  *    2018.12.18 ライブラリ仕樣變更に追從
  *    2019.8.29  polymnia, uraniaの改修に追隨
+ *    2021.11.23 libpolymnia+libthemisからlibeunomiaに切り替へ
  */
 #include "eiv.h"
 
@@ -34,7 +35,7 @@ BOOL dProc(urania::Dialog*, UINT, WPARAM, LPARAM)
 
 void EIViewer::to256(urania::Window* qw)
 {
-  using namespace polymnia;
+  using namespace eunomia;
   using namespace urania;
 
   if (!qrgb_)
@@ -45,7 +46,7 @@ void EIViewer::to256(urania::Window* qw)
 
   auto pict = qrgb_->duplicatePicture();
   auto ppc = pict->duplicatePictureIndexed();
-  pvd_ = PaintMemDeviceIndexed::duplicate(ppc.get());
+  pvd_ = PaintMemDeviceIndexed::duplicate(*ppc);
   qrgb_.reset();
   wtdlg.reset();
 
@@ -77,15 +78,15 @@ void EIViewer::onMenuCnvGS(urania::Window* win)
  *==================================================*/
 void EIViewer::toGrayScale(urania::Window* qw)
 {
-  using namespace polymnia;
+  using namespace eunomia;
   using namespace urania;
 
   if (!qrgb_)
     return;
 
   auto pict = qrgb_->duplicatePicture();
-  auto ppc = pict->createPictureGrayScaleIndexed();
-  pvd_ = PaintMemDeviceIndexed::duplicate(ppc.get());
+  auto ppc = pict->createGrayscaledPictureIndexed();
+  pvd_ = PaintMemDeviceIndexed::duplicate(*ppc);
   qrgb_.reset();
 
   handleMenu(qw);

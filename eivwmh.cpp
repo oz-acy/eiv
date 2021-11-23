@@ -2,18 +2,19 @@
  *
  *  eivwmh.cpp
  *  by oZ/acy
- *  (c) 2002-2016 oZ/acy.  ALL RIGHTS RESERVED.
+ *  (c) 2002-2021 oZ/acy.  ALL RIGHTS RESERVED.
  *
  *  Easy Image Viewer
  *  class EIVWMHandler
  *
  *  @date 2016.10.12 onLButtonDown()、onRButtonDown()を追加
  *  @date 2021.3.23 onPaint()、onMouseWheel()を修正
+ *  @date 2021.11.23 libpolymnia+libthemisからlibeunomiaに切り替へ
  */
 #include "eiv.h"
-#include <polymnia/dibio.h>
-#include <polymnia/pngio.h>
-#include <polymnia/jpegio.h>
+#include <eunomia/dibio.h>
+#include <eunomia/pngio.h>
+#include <eunomia/jpegio.h>
 
 
 /**
@@ -65,17 +66,21 @@ EIVWMHandler::onPaint(urania::BasicWindow* win, urania::PaintDevice* pdev)
   int bw, bh;
   EIViewer* eiv = EIViewer::get();
 
+  auto bgcolor = eunomia::RgbColour(0, 0, 0);
+
   if (eiv->getPaintDevice()) {
     if (eiv->getViewMode() == EIViewer::VIEW_ACTUAL_SIZE) {
       bw = eiv->getPaintDevice()->width();
       bh = eiv->getPaintDevice()->height();
       pdev->blt(
-        0, 0, eiv->getPaintDevice(),
-        eiv->getX(), eiv->getY(), bw - eiv->getX(), bh - eiv->getY());
+        *eiv->getPaintDevice(), 
+          eiv->getX(), eiv->getY(), bw - eiv->getX(), bh - eiv->getY(),
+        0, 0);
     }
     else {
-      pdev->clear(polymnia::RgbColor(255, 255, 255));
-      pdev->blt(eiv->getPaintDevice());
+      //pdev->clear(eunomia::RgbColour(255, 255, 255));
+      pdev->clear(bgcolor);
+      pdev->blt(*eiv->getPaintDevice());
     }
   }
   else if (eiv->getPaintDeviceIndexed()) {
@@ -83,17 +88,20 @@ EIVWMHandler::onPaint(urania::BasicWindow* win, urania::PaintDevice* pdev)
       bw = eiv->getPaintDeviceIndexed()->width();
       bh = eiv->getPaintDeviceIndexed()->height();
       pdev->blt(
-        0, 0, eiv->getPaintDeviceIndexed(),
-        eiv->getX(), eiv->getY(), bw - eiv->getX(), bh - eiv->getY());
+        *eiv->getPaintDeviceIndexed(),
+          eiv->getX(), eiv->getY(), bw - eiv->getX(), bh - eiv->getY(),
+        0, 0);
     }
     else {
-      pdev->clear(polymnia::RgbColor(255, 255, 255));
-      pdev->blt(eiv->getPaintDeviceIndexed());
+      //pdev->clear(eunomia::RgbColour(255, 255, 255));
+      pdev->clear(bgcolor);
+      pdev->blt(*eiv->getPaintDeviceIndexed());
     }
   }
   else
   {
-    pdev->clear(polymnia::RgbColor(255, 255, 255));
+    //pdev->clear(eunomia::RgbColour(255, 255, 255));
+    pdev->clear(eunomia::RgbColour(127, 127, 127));
   }
 }
 
