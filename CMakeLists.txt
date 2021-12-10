@@ -1,27 +1,19 @@
-# CMakeLists.txt for EIV
-
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.19)
+project(eiv LANGUAGES CXX RC)
 set(CMAKE_VERBOSE_MAKEFILE 1)
-project(eiv CXX)
+set(CMAKE_OPTIMIZE_DEPENDENCIES ON)
 
-enable_language(CXX)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+include(GNUInstallDirs)
 
 find_package(eunomia REQUIRED)
 find_package(urania REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(PNG REQUIRED)
 find_package(JPEG REQUIRED)
-
-
-# .rcの處理の定義
-set(CMAKE_RC_COMPILER windres)
-enable_language(RC)
-set(CMAKE_RC_COMPILE_OBJECT
-  "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
 
 
 # eiv.exe
@@ -35,14 +27,14 @@ add_executable(eiv WIN32
   eiv_res.rc
 #  util.cpp
 )
-
 target_compile_options(eiv PRIVATE
-  $<$<CXX_COMPILER_ID:Clang>:-Wall -O3 -municode>
-  $<$<CXX_COMPILER_ID:GNU>:-Wall -O3 -municode>
-  $<$<CXX_COMPILER_ID:MSVC>:/W4 /Ot>
+  $<$<CXX_COMPILER_ID:Clang>:-municode>
+  $<$<CXX_COMPILER_ID:GNU>:-municode>
 )
-
-target_link_libraries(eiv  urania eunomia jpeg png z)
+target_link_libraries(eiv urania::urania eunomia::eunomia)
+if (MSVC)
+  target_compile_options(eiv PRIVATE /source-charset:utf-8)
+endif()
 
 target_compile_definitions(eiv PRIVATE NDEBUG _UNICODE UNICODE WINVER=0x500)
 
