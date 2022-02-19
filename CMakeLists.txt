@@ -76,7 +76,7 @@ target_link_libraries(eiv urania::urania eunomia::eunomia)
 target_compile_definitions(eiv PRIVATE NDEBUG _UNICODE UNICODE WINVER=0x0A00)
 
 target_link_options(eiv PRIVATE
-  $<$<BOOL:${MINGW}>:-municode>
+  $<$<BOOL:${MINGW}>:-municode -static>
   $<$<CXX_COMPILER_ID:MSVC>:/NODEFAULTLIB:libcmt>
 )
 
